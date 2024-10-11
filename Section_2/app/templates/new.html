@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+ {% block content %}
+  {% with messages = get_flashed_messages() %}
+   {% if messages %}
+    <ul>
+     {% for message in messages %}
+       <li>{{ message }} </li>
+     {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+<h1>Enter Property Details</h1>
+<form action="" method="post" name="new">
+    {{ form.hidden_tag() }}
+    <p>
+       Address: {{ form.address }}<br>
+    </p>
+    <p>
+       Duration: {{ form.duration }} months<br>
+    </p>
+    <p>Rent: £{{ form.rent }}</p>
+    <p><input type="submit" value="Submit"></p>
+</form>
+{% endblock %}
