@@ -2,6 +2,7 @@
 {% block content %}
     <h1> Properties </h1>
      {% for p in properties %}
-        <div><p>{{ p }}</p></div>
-     {% endfor %}
+        <div><p>Property {{p.id}}: {{ p.address}}<br>Duration: {{ p.duration }} months<br>Rent £{{p.rent }}</p></div>
+        <br>
+    {% endfor %}
 {% endblock %}
