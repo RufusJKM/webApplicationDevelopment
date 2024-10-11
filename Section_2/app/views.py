@@ -3,6 +3,11 @@ from app import app, db, models
 import datetime
 from .forms import CalculatorForm, PropertyForm
 
+@app.route('/', methods=['GET', 'POST'])
+def home():
+    home={'description':'Welcome to this application. Please select Calculator to calculate two numbers.'}
+    return render_template('home.html', title='Home', home=home)
+
 @app.route('/fruit')
 def displayFruit():
     fruits = ["Apple", "Banana", "Orange", "Kiwi"]
