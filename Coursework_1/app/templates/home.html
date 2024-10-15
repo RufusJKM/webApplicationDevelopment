@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
-
-<h1>This is the home page</h1>
-{{home.description}}
+    <h1>This is the home page</h1>
+    {{home.description}}
+    <h2> Assessments </h2>
+    {% for a in assessments %}
+        <div><p>| Module{{ a.module_code }} {{ a.title }} ({{ a.description }}) |</br>| Due {{ a.deadline_date }}, Completed: {{ a.completed }} |</p></div>
+    {% endfor %}
 {% endblock %}

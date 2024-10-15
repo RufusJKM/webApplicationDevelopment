@@ -22,7 +22,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('title', sa.String(length=100), nullable=False),
     sa.Column('module_code', sa.Integer(), nullable=False),
-    sa.Column('deadline_date', sa.DateTime(), nullable=False),
+    sa.Column('deadline_date', sa.Date(), nullable=False),
     sa.Column('description', sa.String(length=500), nullable=False),
     sa.Column('completed', sa.Boolean(), nullable=False),
     sa.PrimaryKeyConstraint('id')
