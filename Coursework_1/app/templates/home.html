@@ -1,9 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>This is the home page</h1>
-    {{home.description}}
     <h2> Assessments </h2>
     {% for a in assessments %}
         <div><p>| Module{{ a.module_code }} {{ a.title }} ({{ a.description }}) |</br>| Due {{ a.deadline_date }}, Completed: {{ a.completed }} |</p></div>
     {% endfor %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li>{{ message }} </li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+    <h1>Filter Results</h1>
+    <form action="" method="post" name="new">
+        {{ form.hidden_tag() }}
+        <p>{{ form.filterChoice }}</p>
+        <p><input type="submit" value="Submit"></p>
+    </form>
 {% endblock %}

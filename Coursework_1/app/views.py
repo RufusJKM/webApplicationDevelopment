@@ -1,14 +1,26 @@
 from flask import render_template, flash
 from app import app, db, models
-from .forms import NewAssessmentForm
+from .forms import NewAssessmentForm, FilterForm
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
     assessments = []
     for a in models.Assessment.query.all():
         assessments.append(a)
-    home={'description':"Use this page to view all assessments, filter by completion and view assessment details"}
-    return render_template('home.html', title='View Assessments', home=home, assessments=assessments)
+    form = FilterForm()
+    if form.validate_on_submit:
+        if form.filterChoice.data == "True" or form.filterChoice.data == "False":
+            assessments = []
+            decision = False
+            if form.filterChoice.data == "True":
+                decision = True
+            else:
+                decision = False
+            for a in models.Assessment.query.filter_by(completed=decision).all():
+                assessments.append(a)
+
+    
+    return render_template('home.html', title='View Assessments', home=home, assessments=assessments, form=form)
 
 @app.route('/addNew', methods=['GET', 'POST'])
 def addNew():
