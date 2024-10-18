@@ -18,12 +18,10 @@ class NewAssessmentForm(FlaskForm):
 class FilterForm(FlaskForm):
     filterChoice = SelectField(u'Filter by ', choices=[('True', 'Complete'), ('False', 'Incomplete'), ('Null', 'No Filter')], validators=[DataRequired()])
 
-class EditForm(FlaskForm):
+class ChooseForm(FlaskForm):
+    chooseAssessment = IntegerField('chooseAssessment', validators=[DataRequired()])
     title = StringField('Title')
     code = IntegerField('Code')
     dueDate= DateField('Date')
     description = StringField('Description')
     completed = BooleanField('Completed')
-
-class ChooseForm(FlaskForm):
-    chooseAssessment = IntegerField('Assessment number ', validators=[DataRequired()])

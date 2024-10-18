@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 {% block content %}
-<script src="static/editScript.js"></script>
 {% with messages = get_flashed_messages() %}
    {% if messages %}
     <ul>
@@ -16,29 +15,30 @@
         | Assessment {{ a.id }}: {{ a.title }} |
     {% endfor %}
 </div>
-<form action="" method="post" name="pickAssessment" id="form1"></form>
-    {{ form1.hidden_tag() }}
+<form action="" method="post" name="new"></form>
+    {{ form.hidden_tag() }}
     <p>
-        Assessment number {{ form1.chooseAssessment }} <input type="submit" value="Submit", name="AssessmentChoice"><br>
+        Assessment number {{ form.chooseAssessment }}
+        <input type="submit" value="Submit">
     </p>
+{% if valid == true %}
+        {{ form.hidden_tag() }}
+        <p>Enter new details into the corresponding fields</p>
+        <p>
+            Title: , change to :{{ form.title }}<br>
+        </p>
+        <p>
+        Course Code: {{ form.code }}<br>
+        </p>
+        <p>
+            Deadline date: {{ form.dueDate }}<br>
+        </p>
+        <p>
+            Description: {{ form.description }}<br>
+        </p>
+        <p>Completed: {{ form.completed }}</p>
+        <p><input type="submit" value="Submit"></p>
 </form>
-<form action="" method="post" name="changeAssessment", id="form2"></form>
-    {{ form2.hidden_tag() }}
-    <p>Enter new details into the corresponding fields</p>
-    <p>
-        Title: {{ form2.title }}<br>
-    </p>
-    <p>
-       Course Code: {{ form2.code }}<br>
-    </p>
-    <p>
-        Deadline date: {{ form2.dueDate }}<br>
-    </p>
-    <p>
-        Description: {{ form2.description }}<br>
-    </p>
-    <p>Completed: {{ form2.completed }}</p>
-    <p><input type="submit" value="Submit"></p>
-</form>
+{% endif %}
 {{edit.description}}
 {% endblock %}
