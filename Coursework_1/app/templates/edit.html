@@ -10,13 +10,19 @@
   {% endif %}
 {% endwith %}
 <h1>Pick an assessment to change</h1>
+<div>
+    {% for a in assessments %}
+        | Assessment {{ a.id }}: {{ a.title }} |
+    {% endfor %}
+</div>
 <form action="" method="post" name="new">
     {{ form.hidden_tag() }}
     <p>
-        {{ form.chooseAssessment }}<br>
+        Assessment number {{ form.chooseAssessment }}<br>
     </p>
+    <p>Enter new details into the corresponding fields</p>
     <p>
-        {{ form.title }}<br>
+        Title: {{ form.title }}<br>
     </p>
     <p>
        Course Code: {{ form.code }}<br>

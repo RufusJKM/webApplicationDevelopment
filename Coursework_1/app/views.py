@@ -35,8 +35,11 @@ def addNew():
 
 @app.route('/edit', methods=['GET', 'POST'])
 def edit():
-    form = EditForm();
+    assessments = []
+    for a in models.Assessment.query.all():
+        assessments.append(a)
+    form = EditForm()
     if form.validate_on_submit:
-        flash('Successfully changed details for %s'%(form.assessment.data))
+        flash('Successfully changed details for %s'%(form.chooseAssessment.data))
     edit={'description':"Amend assessment details or move assessments to completed using the form below"}
-    return render_template('edit.html', title='Edit Assessments', edit=edit, form=form)
+    return render_template('edit.html', title='Edit Assessments', edit=edit, form=form, assessments=assessments)

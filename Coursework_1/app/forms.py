@@ -6,6 +6,7 @@ from wtforms import DateField
 from wtforms import RadioField
 from wtforms import SelectField
 from wtforms.validators import DataRequired
+from app import app, db, models
 
 class NewAssessmentForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
@@ -18,10 +19,7 @@ class FilterForm(FlaskForm):
     filterChoice = SelectField(u'Filter by ', choices=[('True', 'Complete'), ('False', 'Incomplete'), ('Null', 'No Filter')], validators=[DataRequired()])
 
 class EditForm(FlaskForm):
-    assessments = []
-    for a in models.Assessment.query.all():
-        assessments.append([a.id, a.title])
-    chooseAssessment = SelectField(u'Choose an assessment to edit ', choices=[assessments], validators=[DataRequired])
+    chooseAssessment = IntegerField('Assessment number ', validators=[DataRequired()])
     title = StringField('Title')
     code = IntegerField('Code')
     dueDate= DateField('Date')
