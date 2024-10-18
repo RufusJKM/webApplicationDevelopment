@@ -1,6 +1,6 @@
 from flask import render_template, flash
 from app import app, db, models
-from .forms import NewAssessmentForm, FilterForm
+from .forms import NewAssessmentForm, FilterForm, EditForm
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -35,5 +35,8 @@ def addNew():
 
 @app.route('/edit', methods=['GET', 'POST'])
 def edit():
+    form = EditForm();
+    if form.validate_on_submit:
+        flash('Successfully changed details for %s'%(form.assessment.data))
     edit={'description':"Amend assessment details or move assessments to completed using the form below"}
-    return render_template('edit.html', title='Edit Assessments', edit=edit)
+    return render_template('edit.html', title='Edit Assessments', edit=edit, form=form)
