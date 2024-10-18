@@ -1,6 +1,6 @@
 from flask import render_template, flash
 from app import app, db, models
-from .forms import NewAssessmentForm, FilterForm, EditForm
+from .forms import NewAssessmentForm, FilterForm, EditForm, ChooseForm
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
@@ -38,8 +38,17 @@ def edit():
     assessments = []
     for a in models.Assessment.query.all():
         assessments.append(a)
-    form = EditForm()
-    if form.validate_on_submit:
-        flash('Successfully changed details for %s'%(form.chooseAssessment.data))
+    num = len(assessments)
+    form1 = ChooseForm()
+    form2 = EditForm()
+    if form1.validate_on_submit:
+        found = False
+        for a in assessments:
+            if form1.chooseAssessment.data == a.id:
+                found = True
+                break
+        if found == False:
+            flash("Please enter a number from the list of assessments above")
+        
     edit={'description':"Amend assessment details or move assessments to completed using the form below"}
-    return render_template('edit.html', title='Edit Assessments', edit=edit, form=form, assessments=assessments)
+    return render_template('edit.html', title='Edit Assessments', edit=edit, form1=form1, form2=form2, assessments=assessments, num=num)
