@@ -14,8 +14,12 @@ def home():
         #If the user wishes to filter by either complete or incomplete, a new list of assessments is passed in
         if form.filterChoice.data == "True" or form.filterChoice.data == "False":
             assessments = []
-            for a in models.Assessment.query.filter_by(completed=form.filterChoice.data).all():
+            #Need to cast from String to Bool
+            decision = bool(form.filterChoice.data)
+            #List all assessments by the filter
+            for a in models.Assessment.query.filter_by(completed=decision).all():
                 assessments.append(a)
+        #Otherwise keep the assessments list as it was
 
     return render_template('home.html', title='View Assessments', home=home, assessments=assessments, form=form)
 
@@ -42,12 +46,11 @@ def edit():
     #For loop to get all assessments for display
     for a in models.Assessment.query.all():
         assessments.append(a)
-    
     form = ChooseForm()
     if form.validate_on_submit():
+        print("Validated")
         #For loop validating the users request against the database as the data is the assessment id
         for a in assessments:
-            print(form.chooseAssessment.data)
             if form.chooseAssessment.data == a.id:
                 valid = True
                 break

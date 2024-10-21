@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
     <h2> Assessments </h2>
-    //Prints each assessment onto the page
+    <!-- Prints each assessment onto the page -->
     {% for a in assessments %}
         <div><p>| Module{{ a.module_code }} {{ a.title }} ({{ a.description }}) |</br>| Due {{ a.deadline_date }}, Completed: {{ a.completed }} |</p></div>
     {% endfor %}
-    //Form messages if data is not accurately entered
+    <!-- Form messages if data is not accurately entered -->
     {% with messages = get_flashed_messages() %}
         {% if messages %}
         <ul>
@@ -16,7 +16,7 @@
         {% endif %}
     {% endwith %}
     <h1>Filter Results</h1>
-    //Dropdown form to refresh the assessments shown according to filter
+    <!-- Dropdown form to refresh the assessments shown according to filter -->
     <form action="" method="post" name="new">
         {{ form.hidden_tag() }}
         <p>{{ form.filterChoice }}</p>

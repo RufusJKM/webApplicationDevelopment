@@ -1,4 +1,4 @@
-//This is the base page, every other page inherits elements from here
+<!-- This is the base page, every other page inherits elements from here -->
 <html>
     <head>
       <meta charset="utf-8">
@@ -11,7 +11,7 @@
         display:inline;
     }
     </style>
-    //Makes the page title whatever gets passed from render_template
+    <!-- Makes the page title whatever gets passed from render_template -->
     {% if title %}
         <title>{{ title }}</title>
         {% else %}
@@ -19,7 +19,7 @@
         {% endif %}
     </head>
     <body>
-      //Creates the navigation bar for the other views
+      <!-- Creates the navigation bar for the other views -->
       <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <a class="navbar-brand" href="#"></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,7 @@
         </div>
       </nav>
 
-      //All page specific content here
+      <!-- All page specific content here -->
       <div>
         {% block content %}{% endblock %}
       </div>

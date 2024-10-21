@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-//Form messages for when data is not entered
+<!-- Form messages for when data is not entered -->
 {% with messages = get_flashed_messages() %}
    {% if messages %}
     <ul>
@@ -11,20 +11,20 @@
   {% endif %}
 {% endwith %}
 <h1>Pick an assessment to change</h1>
-//Prints out assessment id and name for all assessments
+<!-- Prints out assessment id and name for all assessments -->
 <div>
     {% for a in assessments %}
         | Assessment {{ a.id }}: {{ a.title }} |
     {% endfor %}
 </div>
-//Takes an integer assessment id then allows for updated details
-<form action="" method="post" name="new"></form>
+<!-- Takes an integer assessment id then allows for updated details -->
+<form action="" method="post" name="new">
     {{ form.hidden_tag() }}
     <p>
         Assessment number {{ form.chooseAssessment }}
         <input type="submit" value="Submit">
     </p>
-//Hides the second part of the form unless a valid id is entered
+<!-- Hides the second part of the form unless a valid id is entered -->
 {% if valid == true %}
         {{ form.hidden_tag() }}
         <p>Enter new details into the corresponding fields</p>
@@ -42,7 +42,7 @@
         </p>
         <p>Completed: {{ form.completed }}</p>
         <p><input type="submit" value="Submit"></p>
+{% endif %} 
 </form>
-{% endif %}
 {{edit.description}}
 {% endblock %}
