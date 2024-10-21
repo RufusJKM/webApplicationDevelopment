@@ -8,6 +8,7 @@ from wtforms import SelectField
 from wtforms.validators import DataRequired
 from app import app, db, models
 
+#Form used to create a new assessment
 class NewAssessmentForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     code = IntegerField('Code', validators=[DataRequired()])
@@ -15,9 +16,11 @@ class NewAssessmentForm(FlaskForm):
     description = StringField('Description', validators=[DataRequired()])
     completed = BooleanField('Completed')
 
+#Form used to filter results by complete/incomplete
 class FilterForm(FlaskForm):
     filterChoice = SelectField(u'Filter by ', choices=[('True', 'Complete'), ('False', 'Incomplete'), ('Null', 'No Filter')], validators=[DataRequired()])
 
+#Form used to amend details, first field is the assessment id to change
 class ChooseForm(FlaskForm):
     chooseAssessment = IntegerField('chooseAssessment', validators=[DataRequired()])
     title = StringField('Title')
