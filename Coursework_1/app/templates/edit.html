@@ -32,6 +32,8 @@
 {% if valid == true %}
     <form action="" method="post" name="new">
         {{ EditForm.hidden_tag() }}
+        <!-- hidden field allowing the chosen assessment to be edited -->
+        <input type="hidden" name="assessment_id" value={{ chosenAssessment.id }}>
         <p>Enter new details into the corresponding fields</p>
         <p>
             Title: {{ EditForm.title(value=chosenAssessment.title) }}<br>

@@ -26,6 +26,7 @@ class ChooseForm(FlaskForm):
     
 #Form to change details of an assessment
 class EditForm(FlaskForm):
+    #The hidden field is used to hold the id of the chosen assessment
     title = StringField('Title')
     code = IntegerField('Code')
     dueDate= DateField('Date')

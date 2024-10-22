@@ -1,4 +1,4 @@
-from flask import render_template, flash
+from flask import render_template, flash, request
 from app import app, db, models
 from .forms import NewAssessmentForm, FilterForm, ChooseForm, EditForm
 
@@ -64,13 +64,17 @@ def edit():
         for a in assessments:
             if form1.chooseAssessment.data == a.id:
                 valid = True
-                chosenAssessment =  models.Assessment.query.get(a.id)
+                chosenAssessment =  models.Assessment.query.get(form1.chooseAssessment.data)
                 break
         if valid == False:
             #Give negative feedback if the user enters something invalid
             flash("Please enter a number from the list of assessments above")
     
     elif form2.validate_on_submit():
+
+        assessment_id = request.form["assessment_id"]
+        print(assessment_id)
+        chosenAssessment = models.Assessment.query.get(int(assessment_id))
         #Change title if necessary
         print(form2.title.data)
         print(form2.code.data)
