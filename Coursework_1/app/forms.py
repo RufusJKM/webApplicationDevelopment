@@ -20,9 +20,12 @@ class NewAssessmentForm(FlaskForm):
 class FilterForm(FlaskForm):
     filterChoice = SelectField(u'Filter by ', choices=[('True', 'Complete'), ('False', 'Incomplete'), ('Null', 'No Filter')], validators=[DataRequired()])
 
-#Form used to amend details, first field is the assessment id to change
+#Form used to pick an assessment to change
 class ChooseForm(FlaskForm):
     chooseAssessment = IntegerField('chooseAssessment', validators=[DataRequired()])
+    
+#Form to change details of an assessment
+class EditForm(FlaskForm):
     title = StringField('Title')
     code = IntegerField('Code')
     dueDate= DateField('Date')
