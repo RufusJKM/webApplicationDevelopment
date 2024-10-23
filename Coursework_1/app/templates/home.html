@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2> Assessments </h2>
+    <div class="row">
+        <div class="left"><h2> Assessments </h2></div>
+    </div>
     <!-- Prints each assessment onto the page -->
     {% for a in assessments %}
         <div><p>| Module{{ a.module_code }} {{ a.title }} ({{ a.description }}) |</br>| Due {{ a.deadline_date }}, Completed: {{ a.completed }} |</p></div>
