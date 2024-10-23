@@ -71,16 +71,10 @@ def edit():
             flash("Please enter a number from the list of assessments above")
     
     elif form2.validate_on_submit():
-
-        assessment_id = request.form["assessment_id"]
-        print(assessment_id)
-        chosenAssessment = models.Assessment.query.get(int(assessment_id))
+        #Get chosenAssessment
+        assessment_id = form2.hidden.data
+        chosenAssessment = models.Assessment.query.get(assessment_id)
         #Change title if necessary
-        print(form2.title.data)
-        print(form2.code.data)
-        print(form2.dueDate.data)
-        print(form2.description.data)
-        print(form2.completed.data)
         if (form2.title.data != None):
             #Must still be a unique name
             for a in assessments:

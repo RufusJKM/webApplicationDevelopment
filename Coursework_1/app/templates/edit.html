@@ -10,16 +10,16 @@
     </ul>
   {% endif %}
 {% endwith %}
-<h1>Pick an assessment to change</h1>
-<!-- Prints out assessment id and name for all assessments -->
-<div>
-    {% for a in assessments %}
-        | Assessment {{ a.id }}: {{ a.title }} |
-    {% endfor %}
-</div>
-<!-- Takes an integer assessment id 
- becomes hidden once validated -->
- {% if valid == false %}
+{% if valid == false %}
+    <h1>Pick an assessment to change</h1>
+    <!-- Prints out assessment id and name for all assessments -->
+    <div>
+        {% for a in assessments %}
+            | Assessment {{ a.id }}: {{ a.title }} |
+        {% endfor %}
+    </div>
+    <!-- Takes an integer assessment id 
+    becomes hidden once validated -->
     <form action="" method="post" name="new">
         {{ ChooseForm.hidden_tag() }}
         <p>
@@ -30,10 +30,13 @@
 {% endif %}
 <!-- Hides the second part of the form unless a valid id is entered -->
 {% if valid == true %}
+    <h1>Make your changes and click submit</h1>
     <form action="" method="post" name="new">
         {{ EditForm.hidden_tag() }}
         <!-- hidden field allowing the chosen assessment to be edited -->
-        <input type="hidden" name="assessment_id" value={{ chosenAssessment.id }}>
+        <div class=""hidden>
+            {{ EditForm.hidden(value=chosenAssessment.id)}}
+        </div>
         <p>Enter new details into the corresponding fields</p>
         <p>
             Title: {{ EditForm.title(value=chosenAssessment.title) }}<br>
@@ -45,11 +48,10 @@
             Deadline date: {{ EditForm.dueDate(value=chosenAssessment.deadline_date) }}<br>
         </p>
         <p>
-            Description: {{ chosenAssessment.description }} >>> {{ EditForm.description(value=chosenAssessment.description) }}<br>
+            Description: {{ chosenAssessment.description }} {{ EditForm.description(value=chosenAssessment.description) }}<br>
         </p>
         <p>Completed: {{ EditForm.completed(value=chosenAssessment.completed) }}</p>
         <p><input type="submit" value="Submit"></p>
     </form>
 {% endif %} 
-{{edit.description}}
 {% endblock %}
