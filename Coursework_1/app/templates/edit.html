@@ -2,10 +2,15 @@
 {% block content %}
 {% if valid == false %}
     <h1>Pick an assessment to change</h1>
-    <!-- Prints out assessment id and name for all assessments -->
+    <!-- Prints out assessment id and name for all assessments in rows of 3 -->
     <div class="row">
         {% for a in assessments %}
-            | Assessment {{ a.id }}: {{ a.title }} |
+            <div class="col">| Assessment {{ a.id }}: {{ a.title }} |</div>
+            {% if a.id%3 == 0 %}
+                <!-- The id's are always sequential, this creates a new row every 3 assessments -->
+                </div>
+                <div class="row">
+            {% endif %}
         {% endfor %}
     </div>
     <br>
@@ -39,7 +44,7 @@
             Deadline date: {{ EditForm.dueDate(value=chosenAssessment.deadline_date) }}<br>
         </p>
         <p>
-            Description: {{ chosenAssessment.description }} {{ EditForm.description(value=chosenAssessment.description) }}<br>
+            Description: {{ chosenAssessment.description }} {{ EditForm.description }}<br>
         </p>
         <p>Completed: {{ EditForm.completed(value=chosenAssessment.completed) }}</p>
         <p><input type="submit" value="Submit"></p>
