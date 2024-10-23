@@ -1,23 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- Form messages for when data is not entered -->
-{% with messages = get_flashed_messages() %}
-   {% if messages %}
-    <ul>
-     {% for message in messages %}
-       <li>{{ message }} </li>
-     {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
 {% if valid == false %}
     <h1>Pick an assessment to change</h1>
     <!-- Prints out assessment id and name for all assessments -->
-    <div>
+    <div class="row">
         {% for a in assessments %}
             | Assessment {{ a.id }}: {{ a.title }} |
         {% endfor %}
     </div>
+    <br>
     <!-- Takes an integer assessment id 
     becomes hidden once validated -->
     <form action="" method="post" name="new">

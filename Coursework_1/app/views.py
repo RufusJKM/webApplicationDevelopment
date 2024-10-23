@@ -1,4 +1,4 @@
-from flask import render_template, flash, request
+from flask import render_template, flash, redirect, url_for
 from app import app, db, models
 from .forms import NewAssessmentForm, FilterForm, ChooseForm, EditForm
 
@@ -28,6 +28,9 @@ def home():
 def addNew():
     form = NewAssessmentForm()
     newName = True
+    assessments = []
+    for a in models.Assessment.query.all():
+        assessments.append(a)
     if form.validate_on_submit():
         for a in assessments:
                 if form.title.data == a.title:
@@ -42,6 +45,10 @@ def addNew():
             a = models.Assessment(title=form.title.data, module_code=form.code.data, deadline_date=form.dueDate.data, description=form.description.data, completed=form.completed.data)
             db.session.add(a)
             db.session.commit()
+            #Refresh the page after submission
+            #Reference: Stack Overflow. [Online]. [Accessed 23/10/2024]. Available from https://stackoverflow.com/questions/31945329/clear-valid-form-after-it-is-submitted
+            return redirect(url_for('addNew'))
+
     addNew={'description':"Use the form below to add a new assessment to the data base, every field must have a value"}
     return render_template('addNew.html', title='Add Assessments', addNew=addNew, form=form)
 
@@ -75,10 +82,11 @@ def edit():
         assessment_id = form2.hidden.data
         chosenAssessment = models.Assessment.query.get(assessment_id)
         #Change title if necessary
-        if (form2.title.data != None):
+        if (form2.title.data != None and form2.title.data != chosenAssessment.title):
             #Must still be a unique name
             for a in assessments:
                 if form2.title.data == a.title:
+
                     flash(f"An assessment with the name {a.title} already exists")
                     newName = False
         
@@ -87,23 +95,25 @@ def edit():
                 db.session.commit()
         
         #change course code if necessary 
-        if (form2.code.data != None):
+        if (form2.code.data != None and form2.code.data != chosenAssessment.module_code):
             chosenAssessment.module_code = form2.code.data
             db.session.commit()
 
         #change dealine date if necessary
-        if (form2.dueDate.data != None):
+        if (form2.dueDate.data != None and form2.dueDate.data != chosenAssessment.deadline_date):
             chosenAssessment.deadline_date = form2.dueDate.data
             db.session.commit()
 
         #change description if necessary
-        if (form2.description.data != None):
+        if (form2.description.data != None and form2.description.data != chosenAssessment.description):
             chosenAssessment.description = form2.description.data
             db.session.commit()
         
         #Completed will always have either true or false in data
         chosenAssessment.completed = form2.completed.data
         db.session.commit()
+
+        flash(f"Successfully changed {chosenAssessment.title}")
 
                 
 

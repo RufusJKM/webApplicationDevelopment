@@ -1,4 +1,26 @@
+/* Nav bar styling */
+nav {
+    border: 3px double #000000;
+    border-style: none none solid none;
+    text-align: center;
+    color: black;
+}
+
+/* General page styling */
+body {
+    color: #000000;
+    background-color: #cdcdcd;
+}
+
+/* Hides from users view */
 .hidden {
     display: none;
 }
+
+/* Ensures no content is right on the page edge */
+#baseContainer {
+    padding-left: 5px;
+}
+
+
 

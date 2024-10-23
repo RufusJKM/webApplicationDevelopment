@@ -5,7 +5,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
+      <link rel="stylesheet" href="static/assessmentStyleSheet.css">
     <style>
     ul#menu li {
         display:inline;
@@ -27,17 +27,18 @@
         </button>
    
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="col"></div>
           <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a class="nav-link" href="/">View Assessments <span class="sr-only">(current)</span></a></li>
             <li class="nav-item"><a class="nav-link" href="/addNew">Add Assessments</a></li>
             <li class="nav-item"><a class="nav-link" href="/edit">Edit Asessments</a></li>
           </ul>
+          <div class="col"></div>
         </div>
       </nav>
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-4"></div>
-            <div class="col-3">
+        <div class="row" id="baseContainer">
+            <div class="col">
               {% with messages = get_flashed_messages() %}
                 {% if messages %}
                   {% for message in messages %}
