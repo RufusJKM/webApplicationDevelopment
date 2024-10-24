@@ -6,6 +6,18 @@ nav {
     background-color: #00005B;
 }
 
+.button {
+    height: 35px;
+    width: 120px;
+    background-color: #00005B;
+    color: #cdcdcd;
+}
+
+.button:hover {
+    border: 1px double black;
+    background-color: #00006B;
+}
+
 /* Styling for links */
 a {
     color: white;
@@ -34,11 +46,6 @@ th {
     border-style: none solid none solid;
 }
 
-#center {
-    display: grid;
-    place-items: center;
-}
-
 /* General page styling */
 body {
     color: #000000;
@@ -54,6 +61,17 @@ body {
 #baseContainer {
     padding-left: 5px;
 }
+
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+p {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    font-style: oblique;
+}
+
 
 
 

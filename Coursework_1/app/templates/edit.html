@@ -37,7 +37,7 @@
         {{ ChooseForm.hidden_tag() }}
         <p>
             Assessment number {{ ChooseForm.chooseAssessment }}
-            <input type="submit" value="Submit">
+            <input class="button" type="submit" value="Submit">
         </p>
     </form>
 {% endif %}
@@ -65,7 +65,7 @@
         </p>
         <p>Completed: {{ EditForm.completed }}</p>
         <div class="row">
-            <p><div class="col-1"><input type="submit" value="Submit"></div> <div class="col-2"></div> <div class="col-3"><input type="button" value="Back" onclick="back()"></div></p>
+            <p><div class="col-1"><input class="button" type="submit" value="Submit"></div> <div class="col-2"></div> <div class="col-3"><input class="button" type="button" value="Back" onclick="back()"></div></p>
         </div>
     </form>
 {% endif %} 

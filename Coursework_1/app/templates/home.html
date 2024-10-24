@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     <div class="row">
-        <div class="left"><h2> Assessments </h2></div>
+        <div class="left"><h1><u>Assessments</u></h1></div>
     </div>
     <!-- Prints each assessment onto the page in a table -->
     <table>
@@ -26,11 +26,11 @@
             </tr>
         {% endfor %}
     </table>
-    <h1>Filter Results</h1>
+    <h3>Filter Results</h3>
     <!-- Dropdown form to refresh the assessments shown according to filter -->
     <form action="" method="post" name="new">
         {{ form.hidden_tag() }}
         <p>{{ form.filterChoice }}</p>
-        <p><input type="submit" value="Submit"></p>
+        <p><input class="button" type="submit" value="Submit"></p>
     </form>
 {% endblock %}
