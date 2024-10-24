@@ -3,7 +3,11 @@ nav {
     border: 3px double #000000;
     border-style: none none solid none;
     text-align: center;
-    color: black;
+    background-color: #00008B;
+}
+
+#nav-item {
+    color: white;
 }
 
 /* General page styling */
