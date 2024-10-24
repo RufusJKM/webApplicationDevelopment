@@ -44,10 +44,12 @@
             Deadline date: {{ EditForm.dueDate(value=chosenAssessment.deadline_date) }}<br>
         </p>
         <p>
-            Description: {{ chosenAssessment.description }} {{ EditForm.description }}<br>
+            Description: {{ EditForm.description(value=chosenAssessment.description) }}<br>
         </p>
-        <p>Completed: {{ EditForm.completed(value=chosenAssessment.completed) }}</p>
-        <p><input type="submit" value="Submit"></p>
+        <p>Completed: {{ EditForm.completed }}</p>
+        <div class="row">
+            <p><div class="col-1"><input type="submit" value="Submit"></div> <div class="col-2"></div> <div class="col-3"><input type="button" value="Back" onclick="back()"></div></p>
+        </div>
     </form>
 {% endif %} 
 {% endblock %}

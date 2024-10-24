@@ -25,11 +25,12 @@ class ChooseForm(FlaskForm):
     chooseAssessment = IntegerField('chooseAssessment', validators=[DataRequired()])
     
 #Form to change details of an assessment
+#Reference for render_kw: Stack Overflow. [Online]. [Accessed 24/10/2024]. Available from https://stackoverflow.com/questions/64820785/can-you-adjust-the-width-of-a-question-in-flask-wtforms
 class EditForm(FlaskForm):
     #The hidden field is used to hold the id of the chosen assessment
-    hidden = IntegerField('Hidden')
-    title = StringField('Title')
-    code = IntegerField('Code')
-    dueDate= DateField('Date')
-    description = StringField('Description')
+    hidden = IntegerField('Hidden', validators=[DataRequired()])
+    title = StringField('Title', validators=[DataRequired()])
+    code = IntegerField('Code', validators=[DataRequired()])
+    dueDate= DateField('Date', validators=[DataRequired()])
+    description = StringField('Description', render_kw={'size': 75}, validators=[DataRequired()])
     completed = BooleanField('Completed')

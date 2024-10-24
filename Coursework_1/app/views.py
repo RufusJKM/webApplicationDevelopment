@@ -35,11 +35,11 @@ def addNew():
         for a in assessments:
                 if form.title.data == a.title:
                     #Give the user negative feedback so they know their request didn't work
-                    flash("An assessment with the name {a.title} already exists")
+                    flash(f"An assessment with the name {a.title} already exists")
                     newName = False
         if newName == True:
             #Give the user positive feedback if the assessment gets added
-            flash('Successfully added %s to assessments'%(form.title.data))
+            flash(f'Successfully added {form.title.data} to assessments')
             
             #Add new assessment to the database 
             a = models.Assessment(title=form.title.data, module_code=form.code.data, deadline_date=form.dueDate.data, description=form.description.data, completed=form.completed.data)
@@ -72,6 +72,8 @@ def edit():
             if form1.chooseAssessment.data == a.id:
                 valid = True
                 chosenAssessment =  models.Assessment.query.get(form1.chooseAssessment.data)
+                #Have to set value here as it doesn't populate properly through html
+                form2.completed.data = chosenAssessment.completed
                 break
         if valid == False:
             #Give negative feedback if the user enters something invalid
@@ -79,10 +81,11 @@ def edit():
     
     elif form2.validate_on_submit():
         #Get chosenAssessment
+        changed = False
         assessment_id = form2.hidden.data
         chosenAssessment = models.Assessment.query.get(assessment_id)
         #Change title if necessary
-        if (form2.title.data != None and form2.title.data != chosenAssessment.title):
+        if (form2.title.data != chosenAssessment.title):
             #Must still be a unique name
             for a in assessments:
                 if form2.title.data == a.title:
@@ -93,27 +96,35 @@ def edit():
             if newName == True:  
                 chosenAssessment.title =  form2.title.data
                 db.session.commit()
+                changed = True
         
         #change course code if necessary 
-        if (form2.code.data != None and form2.code.data != chosenAssessment.module_code):
+        if (form2.code.data != chosenAssessment.module_code):
             chosenAssessment.module_code = form2.code.data
             db.session.commit()
+            changed = True
 
         #change dealine date if necessary
-        if (form2.dueDate.data != None and form2.dueDate.data != chosenAssessment.deadline_date):
+        if (form2.dueDate.data != chosenAssessment.deadline_date):
             chosenAssessment.deadline_date = form2.dueDate.data
             db.session.commit()
+            changed = True
 
         #change description if necessary
-        if (form2.description.data != None and form2.description.data != chosenAssessment.description):
+        if (form2.description.data != chosenAssessment.description):
             chosenAssessment.description = form2.description.data
             db.session.commit()
+            changed = True
         
-        #Completed will always have either true or false in data
-        chosenAssessment.completed = form2.completed.data
-        db.session.commit()
+        #change completed if necessary
+        if (form2.completed.data != chosenAssessment.completed):
+            chosenAssessment.completed = form2.completed.data
+            db.session.commit()
+            changed = True
 
-        flash(f"Successfully changed {chosenAssessment.title}")
+        #Only flash message if a change was made
+        if changed == True:
+            flash(f"Successfully changed {chosenAssessment.title}")
 
                 
 
