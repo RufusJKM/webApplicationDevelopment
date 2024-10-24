@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 {% if valid == false %}
-    <h1 class="center">Pick an assessment to change</h1>
+    <h1 lang="en" class="center">Pick an assessment to change</h1>
     <br>
     <div class="row">
         <div class="col-2"></div>
         <div class="col">
-            <table>
+            <table lang="en">
                 <tr>
                     <th>Assessment ID</th>
                     <th>Assessment Ttitle</th>
@@ -33,9 +33,9 @@
     <br>
     <!-- Takes an integer assessment id 
     becomes hidden once validated -->
-    <form action="" method="post" name="new">
+    <form lang="en" action="" method="post" name="new">
         {{ ChooseForm.hidden_tag() }}
-        <p>
+        <p lang="en">
             Assessment number {{ ChooseForm.chooseAssessment }}
             <input class="button" type="submit" value="Submit">
         </p>
@@ -43,29 +43,29 @@
 {% endif %}
 <!-- Hides the second part of the form unless a valid id is entered -->
 {% if valid == true %}
-    <h1>Make your changes and click submit</h1>
-    <form action="" method="post" name="new">
+    <h1 lang="en">Make your changes and click submit</h1>
+    <form lang="en" action="" method="post" name="new">
         {{ EditForm.hidden_tag() }}
         <!-- hidden field allowing the chosen assessment to be edited -->
         <div class=""hidden>
             {{ EditForm.hidden(value=chosenAssessment.id)}}
         </div>
-        <p>Enter new details into the corresponding fields</p>
-        <p>
+        <p lang="en">Enter new details into the corresponding fields</p>
+        <p lang="en">
             Title: {{ EditForm.title(value=chosenAssessment.title) }}<br>
         </p>
-        <p>
+        <p lang="en">
         Course Code: {{ EditForm.code(value=chosenAssessment.module_code) }}<br>
         </p>
-        <p>
+        <p lang="en">
             Deadline date: {{ EditForm.dueDate(value=chosenAssessment.deadline_date) }}<br>
         </p>
-        <p>
+        <p lang="en">
             Description: {{ EditForm.description(value=chosenAssessment.description) }}<br>
         </p>
-        <p>Completed: {{ EditForm.completed }}</p>
+        <p lang="en">Completed: {{ EditForm.completed }}</p>
         <div class="row">
-            <p><div class="col-1"><input class="button" type="submit" value="Submit"></div> <div class="col-2"></div> <div class="col-3"><input class="button" type="button" value="Back" onclick="back()"></div></p>
+            <p lang="en"><div class="col-1"><input class="button" type="submit" value="Submit"></div> <div class="col-2"></div> <div class="col-3"><input class="button" type="button" value="Back" onclick="back()"></div></p>
         </div>
     </form>
 {% endif %} 

@@ -10,6 +10,7 @@ def home():
     for a in models.Assessment.query.all():
         assessments.append(a)
     form = FilterForm()
+    error = False
     if form.validate_on_submit():
         #If the user wishes to filter by either complete or incomplete, a new list of assessments is passed in
         if form.filterChoice.data == "True" or form.filterChoice.data == "False":
@@ -26,13 +27,14 @@ def home():
                 assessments.append(a)
         #Otherwise keep the assessments list as it was
 
-    return render_template('home.html', title='View Assessments', home=home, assessments=assessments, form=form)
+    return render_template('home.html', title='View Assessments', home=home, assessments=assessments, form=form, error=error)
 
 #View for adding a new assessment
 @app.route('/addNew', methods=['GET', 'POST'])
 def addNew():
     form = NewAssessmentForm()
     newName = True
+    error = False
     assessments = []
     for a in models.Assessment.query.all():
         assessments.append(a)
@@ -40,10 +42,12 @@ def addNew():
         for a in assessments:
                 if form.title.data == a.title:
                     #Give the user negative feedback so they know their request didn't work
+                    error = True
                     flash(f"An assessment with the name {a.title} already exists")
                     newName = False
         if newName == True:
             #Give the user positive feedback if the assessment gets added
+            error = False
             flash(f'Successfully added {form.title.data} to assessments')
             
             #Add new assessment to the database 
@@ -55,13 +59,14 @@ def addNew():
             return redirect(url_for('addNew'))
 
     addNew={'description':"Use the form below to add a new assessment to the data base, every field must have a value"}
-    return render_template('addNew.html', title='Add Assessments', addNew=addNew, form=form)
+    return render_template('addNew.html', title='Add Assessments', addNew=addNew, form=form, error=error)
 
 #View for assessment editing
 @app.route('/edit', methods=['GET', 'POST'])
 def edit():
     assessments = []
     valid = False
+    erorr = False
     #For loop to get all assessments for display
     for a in models.Assessment.query.all():
         assessments.append(a)
@@ -82,7 +87,8 @@ def edit():
                 break
         if valid == False:
             #Give negative feedback if the user enters something invalid
-            flash("Please enter a number from the list of assessments above")
+            error = True
+            flash("Please enter a number from the table below")
     
     elif form2.validate_on_submit():
         #Get chosenAssessment
@@ -94,7 +100,7 @@ def edit():
             #Must still be a unique name
             for a in assessments:
                 if form2.title.data == a.title:
-
+                    error = True
                     flash(f"An assessment with the name {a.title} already exists")
                     newName = False
         
@@ -129,10 +135,11 @@ def edit():
 
         #Only flash message if a change was made
         if changed == True:
+            error = False
             flash(f"Successfully changed {chosenAssessment.title}")
 
                 
 
 
     edit={'description':"Amend assessment details or move assessments to completed using the form below"}
-    return render_template('edit.html', title='Edit Assessments', edit=edit, ChooseForm=form1, EditForm=form2, assessments=assessments, valid=valid, chosenAssessment=chosenAssessment)
+    return render_template('edit.html', title='Edit Assessments', edit=edit, ChooseForm=form1, EditForm=form2, assessments=assessments, valid=valid, chosenAssessment=chosenAssessment, error=error)

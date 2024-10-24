@@ -1,5 +1,5 @@
 <!-- This is the base page, every other page inherits elements from here -->
-<html>
+<html lang="en">
     <head>
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -14,7 +14,7 @@
     </style>
     <!-- Makes the page title whatever gets passed from render_template -->
     {% if title %}
-        <title>{{ title }}</title>
+        <title lang="en">{{ title }}</title>
         {% else %}
         <title> No title specified</title>
         {% endif %}
@@ -30,9 +30,9 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <div class="col"></div>
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a class="nav-link" href="/">View Assessments <span class="sr-only">(current)</span></a></li>
-            <li class="nav-item"><a class="nav-link" href="/addNew">Add Assessments</a></li>
-            <li class="nav-item"><a class="nav-link" href="/edit">Edit Asessments</a></li>
+            <li lang="en" class="nav-item"><a class="nav-link" href="/">View Assessments <span class="sr-only">(current)</span></a></li>
+            <li lang="en" class="nav-item"><a class="nav-link" href="/addNew">Add Assessments</a></li>
+            <li lang="en" class="nav-item"><a class="nav-link" href="/edit">Edit Asessments</a></li>
           </ul>
           <div class="col"></div>
         </div>
@@ -43,9 +43,15 @@
               {% with messages = get_flashed_messages() %}
                 {% if messages %}
                   {% for message in messages %}
-                  <div class="alert alert-success">
-                       {{ message }}
-                  </div>
+                    {% if error == True %}
+                      <div class="alert alert-danger">
+                          {{ message }}
+                      </div>
+                    {% else %}
+                      <div class="alert alert-success">
+                        {{ message }}
+                      </div>
+                    {% endif %}
                   {% endfor %}
       
                 {% endif %}

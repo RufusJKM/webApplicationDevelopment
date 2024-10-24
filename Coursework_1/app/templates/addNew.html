@@ -1,22 +1,22 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Enter Assessment Details</h1>
+<h1 lang="en">Enter Assessment Details</h1>
 <!-- Form for adding new assessments, complete with a submit button -->
-<form action="" method="post" name="new">
+<form lang="en" action="" method="post" name="new">
     {{ form.hidden_tag() }}
-    <p>
+    <p lang="en">
        Title: {{ form.title }}<br>
     </p>
-    <p>
+    <p lang="en">
        Course Code: {{ form.code }}<br>
     </p>
-    <p>
+    <p lang="en">
         Deadline date: {{ form.dueDate }}<br>
     </p>
-    <p>
+    <p lang="en"> 
         Description: {{ form.description }}<br>
     </p>
-    <p>Completed: {{ form.completed }}</p>
-    <p><input class="button" type="submit" value="Submit"></p>
+    <p lang="en">Completed: {{ form.completed }}</p>
+    <p lang="en"><input class="button" type="submit" value="Submit"></p>
 </form>
 {% endblock %}
