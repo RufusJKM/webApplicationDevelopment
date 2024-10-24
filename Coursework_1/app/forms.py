@@ -18,7 +18,7 @@ class NewAssessmentForm(FlaskForm):
 
 #Form used to filter results by complete/incomplete
 class FilterForm(FlaskForm):
-    filterChoice = SelectField(u'Filter by ', choices=[('True', 'Complete'), ('False', 'Incomplete'), ('Null', 'No Filter')], validators=[DataRequired()])
+    filterChoice = SelectField(u'Filter by ', choices=[('None', 'No Filter'), ('True', 'Complete'), ('False', 'Incomplete')], validators=[DataRequired()])
 
 #Form used to pick an assessment to change
 class ChooseForm(FlaskForm):

@@ -1,17 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
 {% if valid == false %}
-    <h1>Pick an assessment to change</h1>
-    <!-- Prints out assessment id and name for all assessments in rows of 3 -->
+    <h1 class="center">Pick an assessment to change</h1>
+    <br>
     <div class="row">
-        {% for a in assessments %}
-            <div class="col">| Assessment {{ a.id }}: {{ a.title }} |</div>
-            {% if a.id%3 == 0 %}
-                <!-- The id's are always sequential, this creates a new row every 3 assessments -->
-                </div>
-                <div class="row">
-            {% endif %}
-        {% endfor %}
+        <div class="col-2"></div>
+        <div class="col">
+            <table>
+                <tr>
+                    <th>Assessment ID</th>
+                    <th>Assessment Ttitle</th>
+                    <th>Assessment ID</th>
+                    <th>Assessment Ttitle</th>
+                    <th>Assessment ID</th>
+                    <th>Assessment Ttitle</th>
+                </tr>
+                <tr>
+                    {% for a in assessments %}
+                        <td>{{ a.id }}</td>
+                        <td>{{ a.title }}</td>
+                        {% if a.id%3 == 0 %}
+                            <!-- The id's are always sequential, this creates a new row every 3 assessments -->
+                            </tr>
+                            <tr>
+                        {% endif %}
+                    {% endfor %}
+                </tr>      
+            </table>
+    </div>
+    <div class="col-11"></div>
     </div>
     <br>
     <!-- Takes an integer assessment id 

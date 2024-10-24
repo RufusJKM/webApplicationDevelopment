@@ -14,9 +14,14 @@ def home():
         #If the user wishes to filter by either complete or incomplete, a new list of assessments is passed in
         if form.filterChoice.data == "True" or form.filterChoice.data == "False":
             assessments = []
-            #Need to cast from String to Bool
-            decision = bool(form.filterChoice.data)
-            #List all assessments by the filter
+            
+            #Need to convert from String to Bool
+            if form.filterChoice.data == "True":
+                decision = True
+            else:
+                decision = False
+
+            #Create new list of assessments
             for a in models.Assessment.query.filter_by(completed=decision).all():
                 assessments.append(a)
         #Otherwise keep the assessments list as it was

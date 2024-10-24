@@ -3,11 +3,40 @@ nav {
     border: 3px double #000000;
     border-style: none none solid none;
     text-align: center;
-    background-color: #00008B;
+    background-color: #00005B;
 }
 
-#nav-item {
+/* Styling for links */
+a {
     color: white;
+}
+
+a:hover {
+    color: #cdcdcd;
+}
+
+/* table styling */
+table {
+    border: 2px solid #00005B;
+    border-collapse: collapse;
+    width: 75%;
+}
+
+th, td {
+    border: 1px solid #00005B;
+    text-align: center;
+}
+
+th {
+    color: white;
+    background-color: #00005B;
+    border-color: white;
+    border-style: none solid none solid;
+}
+
+#center {
+    display: grid;
+    place-items: center;
 }
 
 /* General page styling */
