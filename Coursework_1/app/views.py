@@ -27,7 +27,7 @@ def home():
                 assessments.append(a)
         #Otherwise keep the assessments list as it was
 
-    return render_template('home.html', title='View Assessments', home=home, assessments=assessments, form=form, error=error)
+    return render_template('home.html', title='View Assessments', assessments=assessments, form=form, error=error)
 
 #View for adding a new assessment
 @app.route('/addNew', methods=['GET', 'POST'])
@@ -58,15 +58,14 @@ def addNew():
             #Reference: Stack Overflow. [Online]. [Accessed 23/10/2024]. Available from https://stackoverflow.com/questions/31945329/clear-valid-form-after-it-is-submitted
             return redirect(url_for('addNew'))
 
-    addNew={'description':"Use the form below to add a new assessment to the data base, every field must have a value"}
-    return render_template('addNew.html', title='Add Assessments', addNew=addNew, form=form, error=error)
+    return render_template('addNew.html', title='Add Assessments', form=form, error=error)
 
 #View for assessment editing
 @app.route('/edit', methods=['GET', 'POST'])
 def edit():
     assessments = []
     valid = False
-    erorr = False
+    error = False
     #For loop to get all assessments for display
     for a in models.Assessment.query.all():
         assessments.append(a)
@@ -138,8 +137,4 @@ def edit():
             error = False
             flash(f"Successfully changed {chosenAssessment.title}")
 
-                
-
-
-    edit={'description':"Amend assessment details or move assessments to completed using the form below"}
-    return render_template('edit.html', title='Edit Assessments', edit=edit, ChooseForm=form1, EditForm=form2, assessments=assessments, valid=valid, chosenAssessment=chosenAssessment, error=error)
+    return render_template('edit.html', title='Edit Assessments', ChooseForm=form1, EditForm=form2, assessments=assessments, valid=valid, chosenAssessment=chosenAssessment, error=error)
