@@ -19,28 +19,35 @@ class Customer(db.Model):
     email = db.Column(db.String(50))
     username = db.Column(db.String(20))
     password = db.Column(db.String(20))
+    cards = db.relationship('Card', backref='customer', lazy='dynamic')
+    basket = db.relationship('Basket', backref='customer', lazy='dynamic')
+
 
     def __repr__(self):
             return '{}{}{}{}{}{}{}'.format(self.id, self.first_name, self.last_name, self.phone_number, self.email, self.username, self.password)
 
 class Card(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    number = db.Column(db.String, index=True, unique=True)
+    number = db.Column(db.Integer, unique=True)
     expirery = db.Column(db.DateTime)
     cvv = db.Column(db.Integer)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
 
     def __repr__(self):
             return '{}{}{}{}'.format(self.id, self.number, self.expirery, self.cvv)
 
 class Basket(db.Model):
-    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'), primary_key=True)
-    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+    products = db.relationship('Product', backref='basket', lazy='dynamic')
 
     def __repr__(self): 
-            return '{}{}'.format(self.customer_id, self.product_id)
+            return '{}{}'.format(self.id, self.customer_id)
 
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+    products = db.relationship('Product', backref='order', lazy='dynamic')
 
     def __repr__(self): 
-            return '{}'.format(self.id)
+            return '{}{}'.format(self.id, self.customer_id)
