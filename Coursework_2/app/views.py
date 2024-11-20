@@ -1,5 +1,11 @@
 from flask import render_template, flash, redirect, url_for
 from app import app, db, models
+from .forms import NewAccountForm, LoginForm, NewCardForm, ChooseCardForm, RatingForm, SearchForm
+
+#Login Page
+#@app.route('/', methods=['GET', 'POST'])
+#def login():
+#    return render_template('login.html', title='login')
 
 #Home view
 @app.route('/', methods=['GET', 'POST'])

@@ -55,7 +55,7 @@ def upgrade():
     op.create_table('card',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('number', sa.Integer(), nullable=True),
-    sa.Column('expirery', sa.DateTime(), nullable=True),
+    sa.Column('expiry', sa.DateTime(), nullable=True),
     sa.Column('cvv', sa.Integer(), nullable=True),
     sa.Column('customer_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['customer_id'], ['customer.id'], ),

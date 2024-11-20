@@ -15,8 +15,8 @@ class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(20), index=True)
     last_name = db.Column(db.String(20))
-    phone_number = db.Column(db.String(20))
-    email = db.Column(db.String(50))
+    phone_number = db.Column(db.String(20), unique=True)
+    email = db.Column(db.String(50), unique=True)
     username = db.Column(db.String(20))
     password = db.Column(db.String(20))
     cards = db.relationship('Card', backref='customer', lazy='dynamic')
@@ -29,7 +29,7 @@ class Customer(db.Model):
 class Card(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     number = db.Column(db.Integer, unique=True)
-    expirery = db.Column(db.DateTime)
+    expiry = db.Column(db.DateTime)
     cvv = db.Column(db.Integer)
     customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
 

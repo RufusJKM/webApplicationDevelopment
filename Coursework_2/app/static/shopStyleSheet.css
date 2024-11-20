@@ -1,0 +1,80 @@
+/* Nav bar styling */
+nav {
+    border: 3px double #000000;
+    border-style: none none solid none;
+    text-align: center;
+    background-color: #00005B;
+}
+
+/* Styling for submit/back buttons */
+.button {
+    height: 35px;
+    width: 120px;
+    background-color: #00005B;
+    color: #cdcdcd;
+}
+
+.button:hover {
+    border: 1px double black;
+    background-color: #00006B;
+}
+
+/* Styling for links */
+a {
+    color: white;
+}
+
+a:hover {
+    color: #cdcdcd;
+}
+
+/* table styling */
+table {
+    border: 2px solid #00005B;
+    border-collapse: collapse;
+    width: 75%;
+}
+
+th, td {
+    border: 1px solid #00005B;
+    text-align: center;
+}
+
+th {
+    color: white;
+    background-color: #00005B;
+    border-color: white;
+    border-style: none solid none solid;
+}
+
+/* General page styling */
+body {
+    color: #000000;
+    background-color: #cdcdcd;
+}
+
+/* Hides from users view */
+.hidden {
+    display: none;
+}
+
+/* Ensures no content is right on the page edge */
+#baseContainer {
+    padding-left: 5px;
+}
+
+/* General text styling */
+h1, h3 {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+p {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 20px;
+    font-style: oblique;
+}
+
+
+
+
+
