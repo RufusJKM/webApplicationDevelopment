@@ -3,12 +3,29 @@ from app import app, db, models
 from .forms import NewAccountForm, LoginForm, NewCardForm, ChooseCardForm, RatingForm, SearchForm
 
 #Login Page
-#@app.route('/', methods=['GET', 'POST'])
-#def login():
-#    return render_template('login.html', title='login')
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    foundUser = False
+    authenticate = False
+    if form.validate_on_submit():
+        username = form.username.data
+        password = form.password.data
+        for customer in models.Customer.query.all():
+            if customer.username == username:
+                foundUser = True
+                if customer.password == password:
+                    authenticate = True
+                    #switch to home page
+        
+        print(f"Authenticate: {authenticate}\nfoundUser: {foundUser}")
+        if authenticate == False:
+            flash(f"Username or password incorrect, to create a new account, click Sign Up")
+    
+    return render_template('login.html', title='login', form=form)
 
 #Home view
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/home', methods=['GET', 'POST'])
 def home():
     return render_template('home.html', title='Home')
 

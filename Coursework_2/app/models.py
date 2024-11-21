@@ -7,6 +7,8 @@ class Product(db.Model):
     category = db.Column(db.String(50))
     price = db.Column(db.Float)
     count = db.Column(db.Integer)
+    basket_id = db.Column(db.Integer, db.ForeignKey('basket.id'))
+    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
 
     def __repr__(self):
             return '{}{}{}{}{}'.format(self.id, self.name, self.imgurl, self.category, self.price, self.count)

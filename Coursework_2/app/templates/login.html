@@ -1,0 +1,52 @@
+<head lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/shopStyleSheet.css">
+  <!-- Makes the page title whatever gets passed from render_template -->
+  {% if title %}
+      <title lang="en">{{ title }}</title>
+      {% else %}
+      <title> No title specified</title>
+      {% endif %}
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row" id="baseContainer">
+            <div class="col">
+              {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                  {% for message in messages %}
+                    {% if error == True %}
+                      <div class="alert alert-danger">
+                          {{ message }}
+                      </div>
+                    {% else %}
+                      <div class="alert alert-success">
+                        {{ message }}
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                  <h2>Welcome! Login or click Sign Up to create an account</h2>
+                  <form lang="en" action="" method="post" name="new">
+                      {{ form.hidden_tag() }}
+                      <p lang="en">
+                          Username: {{ form.username }}<br>
+                      </p>
+                      <p lang="en">
+                          Password: {{ form.password }}<br>
+                      </p> 
+                      <p lang="en"><input class="button" type="submit" value="Login"></p>
+                  </form>
+                  <p lang="en"><input class="button" type="button" value="Sign Up"></p>
+                {% endif %}
+              {% endwith %}
+              
+            </div>
+          </div>
+        </div>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    
