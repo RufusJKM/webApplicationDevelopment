@@ -2,6 +2,8 @@ from flask import render_template, flash, redirect, url_for
 from app import app, db, models
 from .forms import NewAccountForm, LoginForm, NewCardForm, ChooseCardForm, RatingForm, SearchForm
 
+
+
 #Login Page
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -17,6 +19,7 @@ def login():
                 foundUser = True
                 if customer.password == password:
                     authenticate = True
+                    currentUser = customer
                     return redirect(url_for('home'))
         
         print(f"Authenticate: {authenticate}\nfoundUser: {foundUser}")
@@ -78,7 +81,7 @@ def signUp():
 #Home view
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    print("In home page")
+    
     return render_template('home.html', title='Home')
 
 #Account details view
