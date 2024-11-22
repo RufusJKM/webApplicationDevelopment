@@ -6,7 +6,6 @@ from app import app, db, models
 class NewAccountForm(FlaskForm):
     first_name = StringField('FName', validators=[DataRequired()])
     last_name = StringField('LName', validators=[DataRequired()])
-    phone_number = IntegerField('Number', validators=[DataRequired()])
     email = EmailField('Email', validators=[DataRequired()])
     username = StringField('UName', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
