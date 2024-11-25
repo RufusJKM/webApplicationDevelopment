@@ -1,4 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Welcome {{ customer.username }}!</h1>
+<h1>Welcome [customer.username]!</h1>
+<h3>What are you looking for today?</h3>
+<div class="row">
+<div class="col-3">
+    <div class="product">
+        <div class="row">
+            <div class="col">
+                <img src="https://imgs.search.brave.com/wJjC7oqjjMLDi4gaZ_-c6bCGmueU5_WdpTskWSuMUXc/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAxLzM4LzU5LzY1/LzM2MF9GXzEzODU5/NjUyOF9kRzdKOHhy/RVhST3pHa0UwUENn/S2pEV3ljbFlVV2Z6/ei5qcGc" alt="Broccoli Stock Image" width="150" height="150">
+            </div>
+            <div class="col">
+                <h4>Broccoli</h4>
+                <div class="row">
+                    <div class="col">
+                    <p class="price">£0.82</p>
+                    </div>
+                    <div class="col">
+                    <select name="quantity" id="quantity">
+                        <option value=1>1</option>
+                        <option value=2>2</option>
+                        <option value=3>3</option>
+                        <option value=4>4</option>
+                        <option value=5>5</option>
+                    </select>
+                    </div>
+                </div>
+                <p lang="en"><input class="button" id="add" type="button" value="Add To Basket" onclick="addToBasket()"></p></a>
+            </div>
+        </div>
+        <p class="warning">Only 5 left in stock!</p>
+    </div>
+</div>
+</div>
 {% endblock %}
