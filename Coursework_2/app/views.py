@@ -1,8 +1,15 @@
 from flask import render_template, flash, redirect, url_for, session
 from app import app, db, models
-from .forms import NewAccountForm, LoginForm, NewCardForm, ChooseCardForm, RatingForm, SearchForm
+from .forms import NewAccountForm, LoginForm, NewCardForm, ChooseCardForm, RatingForm, SearchForm, FilterForm
 
+def getName(item):
+    return item.name
 
+def getPrice(item):
+    return item.price
+
+def getRating(item):
+    return item.rating
 
 #Login Page
 @app.route('/', methods=['GET', 'POST'])
@@ -38,11 +45,14 @@ def signUp():
     error = False
     form = NewAccountForm()
     if form.validate_on_submit():
-        # email must be unique
+        # email and username must be unique
         for customer in models.Customer.query.all():
             if customer.email == form.email.data:
                 error = True
                 flash(f"Email already in use")
+            elif customer.username == form.username.data:
+                error = True
+                flash(f"Username already in use")
 
         #ensure password meets required constraints
         password = form.password.data
@@ -84,7 +94,36 @@ def signUp():
 def home():
     customerID = session['customer']
     customer = models.Customer.query.get(customerID)
-    return render_template('home.html', title='Home', customer=customer)
+    products = []
+    for p in models.Product.query.all():
+        products.append(p)
+    form = FilterForm()
+    error = False
+    if form.validate_on_submit():
+        #Alter product list based on filter
+        if form.filterChoice.data != "None":
+            products = []
+            
+            for p in models.Product.query.filter_by(category=form.filterChoice.data).all():
+                products.append(p)
+        #Otherwise keep the assessments list full
+        else:
+            products = []
+            for p in models.Product.query.all():
+                products.append(p)
+        
+        #Now sort using in-built sorted() function
+        if (form.sortChoice.data == "Alphabetical"):
+            products = sorted(products, key=getName)
+        elif (form.sortChoice.data == "PLowHigh"):
+            products = sorted(products, key=getPrice)
+        elif (form.sortChoice.data == "PHighLow"):
+            products = sorted(products, key=getPrice, reverse=True)
+        else:
+            products = sorted(products, key=getRating)
+
+
+    return render_template('home.html', title='Home', customer=customer, products=products)
 
 #Account details view
 @app.route('/account', methods=['GET', 'POST'])

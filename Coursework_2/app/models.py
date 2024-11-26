@@ -7,21 +7,21 @@ class Product(db.Model):
     category = db.Column(db.String(50))
     price = db.Column(db.Float)
     count = db.Column(db.Integer)
-    basket_id = db.Column(db.Integer, db.ForeignKey('basket.id'))
-    order_id = db.Column(db.Integer, db.ForeignKey('order.id'))
+    rating = db.Column(db.Float)
+    baskets = db.relationship('BasketProducts', backref='product', lazy='dynamic')
 
     def __repr__(self):
-            return '{}{}{}{}{}'.format(self.id, self.name, self.imgurl, self.category, self.price, self.count)
+            return '{}{}{}{}{}'.format(self.id, self.name, self.imgurl, self.category, self.price, self.count, self.rating)
 
 class Customer(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(20), index=True)
     last_name = db.Column(db.String(20))
     email = db.Column(db.String(50), unique=True)
-    username = db.Column(db.String(20))
+    username = db.Column(db.String(20), unique=True)
     password = db.Column(db.String(20))
     cards = db.relationship('Card', backref='customer', lazy='dynamic')
-    basket = db.relationship('Basket', backref='customer', lazy='dynamic')
+    baskets = db.relationship('Basket', backref='customer', lazy='dynamic')
 
 
     def __repr__(self):
@@ -40,15 +40,11 @@ class Card(db.Model):
 class Basket(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
-    products = db.relationship('Product', backref='basket', lazy='dynamic')
+    products = db.relationship('BasketProducts', backref='basket', lazy='dynamic')
 
     def __repr__(self): 
-            return '{}{}'.format(self.id, self.customer_id)
+            return '{}{}'.format(self.id)
 
-class Order(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
-    products = db.relationship('Product', backref='order', lazy='dynamic')
-
-    def __repr__(self): 
-            return '{}{}'.format(self.id, self.customer_id)
+class BasketProducts(db.Table):
+    basket_id = db.Column(db.Integer, db.ForeignKey('basket.id'), primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), primary_key=True)
