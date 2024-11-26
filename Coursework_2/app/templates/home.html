@@ -1,35 +1,47 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Welcome [customer.username]!</h1>
+<h1>Welcome {{customer.username}}!</h1>
 <h3>What are you looking for today?</h3>
 <div class="row">
-<div class="col-3">
-    <div class="product">
-        <div class="row">
-            <div class="col">
-                <img src="https://imgs.search.brave.com/wJjC7oqjjMLDi4gaZ_-c6bCGmueU5_WdpTskWSuMUXc/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAxLzM4LzU5LzY1/LzM2MF9GXzEzODU5/NjUyOF9kRzdKOHhy/RVhST3pHa0UwUENn/S2pEV3ljbFlVV2Z6/ei5qcGc" alt="Broccoli Stock Image" width="150" height="150">
+
+    <!-- Display products in rows of 4 -->
+     <!-- Reference: StackOverflow. [Online]. [Accessed 26/11/2024]. 
+      Available from https://stackoverflow.com/questions/27035728/flask-cannot-import-enumerate-undefinederror-enumerate-is-undefined -->
+    {% for p in products %}
+        {% if (loop.index0 + 1)%4 == 0 %}
             </div>
-            <div class="col">
-                <h4>Broccoli</h4>
+            <div class="row">
+        {% endif %}
+        <div class="col-3">
+            <div class="product">
                 <div class="row">
                     <div class="col">
-                    <p class="price">£0.82</p>
+                        <img lang="en" src={{p.imgurl}} alt="{{ p.name }} Stock Image" width="150" height="150">
                     </div>
                     <div class="col">
-                    <select name="quantity" id="quantity">
-                        <option value=1>1</option>
-                        <option value=2>2</option>
-                        <option value=3>3</option>
-                        <option value=4>4</option>
-                        <option value=5>5</option>
-                    </select>
+                        <h4 lang="en">{{ p.name }}</h4>
+                        <div class="row">
+                            <div class="col">
+                            <p lang="en" class="price" id="price">£{{ p.price }}</p>
+                            </div>
+                            <div class="col">
+                                <!-- Dropown allowing user to add multiple of one item to basket -->
+                                <select name="quantity" id="quantity">
+                                    {% for i in range(p.count) %}
+                                        <option value={{ i+1 }}>{{ i+1 }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <p lang="en"><input class="button" id="add" type="button" value="Add To Basket" onclick="addToBasket()"></p></a>
                     </div>
                 </div>
-                <p lang="en"><input class="button" id="add" type="button" value="Add To Basket" onclick="addToBasket()"></p></a>
+                {% if p.count <= 10 %}
+                    <p lang="en" class="warning">Only {{ count }} left in stock!</p>
+                {% endif %}
             </div>
         </div>
-        <p class="warning">Only 5 left in stock!</p>
-    </div>
+    {% endfor %}
 </div>
-</div>
+<script src="static/homeScript.js"></script> 
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, session
 from app import app, db, models
 from .forms import NewAccountForm, LoginForm, NewCardForm, ChooseCardForm, RatingForm, SearchForm
 
@@ -19,7 +19,7 @@ def login():
                 foundUser = True
                 if customer.password == password:
                     authenticate = True
-                    currentUser = customer
+                    session['customer'] = customer.id
                     return redirect(url_for('home'))
         
         print(f"Authenticate: {authenticate}\nfoundUser: {foundUser}")
@@ -72,6 +72,7 @@ def signUp():
             c = models.Customer(first_name=form.first_name.data, last_name=form.last_name.data, email=form.email.data, username=form.username.data, password=form.password.data)
             db.session.add(c)
             db.session.commit()
+            session['customer'] = c.id
             return redirect(url_for('home'))
 
 
@@ -81,8 +82,9 @@ def signUp():
 #Home view
 @app.route('/home', methods=['GET', 'POST'])
 def home():
-    
-    return render_template('home.html', title='Home')
+    customerID = session['customer']
+    customer = models.Customer.query.get(customerID)
+    return render_template('home.html', title='Home', customer=customer)
 
 #Account details view
 @app.route('/account', methods=['GET', 'POST'])
