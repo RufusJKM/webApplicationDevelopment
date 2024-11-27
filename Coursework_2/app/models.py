@@ -45,6 +45,6 @@ class Basket(db.Model):
     def __repr__(self): 
             return '{}{}'.format(self.id)
 
-class BasketProducts(db.Table):
+class BasketProducts(db.Model):
     basket_id = db.Column(db.Integer, db.ForeignKey('basket.id'), primary_key=True)
     product_id = db.Column(db.Integer, db.ForeignKey('product.id'), primary_key=True)

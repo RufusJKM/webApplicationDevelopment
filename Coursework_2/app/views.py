@@ -1,6 +1,11 @@
 from flask import render_template, flash, redirect, url_for, session
-from app import app, db, models
+from app import app, db, models, admin
+from flask_admin.contrib.sqla import ModelView
+from .models import Product, Customer
 from .forms import NewAccountForm, LoginForm, NewCardForm, ChooseCardForm, RatingForm, SearchForm, FilterForm
+
+admin.add_view(ModelView(Product, db.session))
+admin.add_view(ModelView(Customer, db.session))
 
 def getName(item):
     return item.name
