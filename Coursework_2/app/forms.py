@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, StringField, BooleanField, DateField, SelectField, PasswordField, EmailField, RadioField
+from wtforms import IntegerField, StringField, BooleanField, DateField, SelectField, PasswordField, EmailField, RadioField, FloatField
 from wtforms.validators import DataRequired
 from app import app, db, models
 
@@ -34,4 +34,9 @@ class FilterForm(FlaskForm):
      filterChoice = SelectField(u'Filter by ', choices=[('None', 'No Filter'), ('Vegetables', 'Vegetables'), ('Fruits', 'Fruits'),  ('Meats', 'Meats')], validators=[DataRequired()])
      sortChoice = SelectField(u'Sort by ', choices=[('Alphabetical', 'A-Z'), ('PLowHigh', 'Price Low to High'), ('PHighLow', 'Price High to Low'),  ('Rating', 'Rating')], validators=[DataRequired()])
 
-   
+class ProductForm(FlaskForm):
+    name = StringField('name', validators=[DataRequired()])
+    imgurl = StringField('imgurl', validators=[DataRequired()])
+    category = SelectField(u'Category', choices=[('Vegetables', 'Vegetables'), ('Fruits', 'Fruits'),  ('Meats', 'Meats')], validators=[DataRequired()])
+    price = FloatField('price', validators=[DataRequired()])
+    count = IntegerField('count', validators=[DataRequired()])

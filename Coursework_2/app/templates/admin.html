@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Add new products</h1>
+<form lang="en" action="" method="post" name="new">
+    {{ form.hidden_tag() }}
+    <p lang="en">
+        Name: {{ form.name }}<br>
+    </p>
+    <p lang="en">
+        imgurl: {{ form.imgurl }}<br>
+    </p>
+    <p lang="en">
+        Category: {{ form.category }}<br>
+    </p>
+    <p lang="en">
+        Price: {{ form.price }}<br>
+    </p>
+    <p lang="en">
+        Count: {{ form.count }}<br>
+    </p>
+    <p lang="en"><input class="button" type="submit" value="Sign Up"></p>
+</form>
+{% endblock %}

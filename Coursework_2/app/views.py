@@ -2,10 +2,7 @@ from flask import render_template, flash, redirect, url_for, session
 from app import app, db, models, admin
 from flask_admin.contrib.sqla import ModelView
 from .models import Product, Customer
-from .forms import NewAccountForm, LoginForm, NewCardForm, ChooseCardForm, RatingForm, SearchForm, FilterForm
-
-admin.add_view(ModelView(Product, db.session))
-admin.add_view(ModelView(Customer, db.session))
+from .forms import NewAccountForm, LoginForm, NewCardForm, ChooseCardForm, RatingForm, SearchForm, FilterForm, ProductForm
 
 def getName(item):
     return item.name
@@ -144,3 +141,21 @@ def prevOrders():
 @app.route('/basket', methods=['GET', 'POST'])
 def basket():
     return render_template('basket.html', title='Your Basket')
+
+@app.route('/admi', methods=['GET', 'POST'])
+def admi():
+    error = False
+    form = ProductForm()
+    if form.validate_on_submit():
+        for product in models.Product.query.all():
+            if product.name == form.name:
+                error = True
+                flash(f"{form.name} is already in the database")
+
+        if error == False:
+            p = models.Product(name=form.name, imgurl=form.imgurl, category=form.category, price=form.price, count=form.count, rating=0)
+            db.session.add(p)
+            db.session.commit()
+            flash(f"{form.name} added to the database")
+
+    return render_template('admin.html', title='Admin', form=form, error=error)
