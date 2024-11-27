@@ -148,14 +148,14 @@ def admi():
     form = ProductForm()
     if form.validate_on_submit():
         for product in models.Product.query.all():
-            if product.name == form.name:
+            if product.name == form.name.data:
                 error = True
-                flash(f"{form.name} is already in the database")
+                flash(f"{form.name.data} is already in the database")
 
         if error == False:
-            p = models.Product(name=form.name, imgurl=form.imgurl, category=form.category, price=form.price, count=form.count, rating=0)
+            p = models.Product(name=form.name.data, imgurl=form.imgurl.data, category=form.category.data, price=form.price.data, count=form.count.data, rating=0)
             db.session.add(p)
             db.session.commit()
-            flash(f"{form.name} added to the database")
+            flash(f"{form.name.data} added to the database")
 
     return render_template('admin.html', title='Admin', form=form, error=error)

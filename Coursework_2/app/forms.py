@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import IntegerField, StringField, BooleanField, DateField, SelectField, PasswordField, EmailField, RadioField, FloatField
+from wtforms import IntegerField, StringField, BooleanField, DateField, SelectField, PasswordField, EmailField, RadioField, DecimalField
 from wtforms.validators import DataRequired
 from app import app, db, models
 
@@ -38,5 +38,5 @@ class ProductForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
     imgurl = StringField('imgurl', validators=[DataRequired()])
     category = SelectField(u'Category', choices=[('Vegetables', 'Vegetables'), ('Fruits', 'Fruits'),  ('Meats', 'Meats')], validators=[DataRequired()])
-    price = FloatField('price', validators=[DataRequired()])
+    price = DecimalField('price', validators=[DataRequired()])
     count = IntegerField('count', validators=[DataRequired()])
