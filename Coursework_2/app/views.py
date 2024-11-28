@@ -4,6 +4,8 @@ from flask_admin.contrib.sqla import ModelView
 from .models import Product, Customer
 from .forms import NewAccountForm, LoginForm, NewCardForm, ChooseCardForm, RatingForm, SearchForm, FilterForm, ProductForm
 
+import json
+
 def getName(item):
     return item.name
 
@@ -142,8 +144,9 @@ def prevOrders():
 def basket():
     return render_template('basket.html', title='Your Basket')
 
-@app.route('/admi', methods=['GET', 'POST'])
-def admi():
+#View to add products to db
+@app.route('/addProduct', methods=['GET', 'POST'])
+def addProduct():
     error = False
     form = ProductForm()
     if form.validate_on_submit():
@@ -159,3 +162,10 @@ def admi():
             flash(f"{form.name.data} added to the database")
 
     return render_template('admin.html', title='Admin', form=form, error=error)
+
+#AJAX response views
+@app.route('/changePrice', methods=['GET', 'POST'])
+def changePrice():
+    productID = json.loads(request.data)
+    product = models.Product.query.get(productID)
+    return json.dumps({'status': 'OK', 'response': product.price })

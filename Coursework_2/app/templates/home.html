@@ -26,9 +26,9 @@
                             </div>
                             <div class="col">
                                 <!-- Dropown allowing user to add multiple of one item to basket -->
-                                <select name="quantity" id="quantity">
+                                <select name={{p.id}} class='quantity'>
                                     {% for i in range(p.count) %}
-                                        <option value=i+1>{{ i+1 }}</option>
+                                        <option value={{i+1}}>{{ i+1 }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
