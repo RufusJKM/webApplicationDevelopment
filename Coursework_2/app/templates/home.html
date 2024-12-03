@@ -1,15 +1,10 @@
 {% extends "base.html" %}
-<head>
-	<script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}" ></script>
-	<script type="text/javascript" src="{{ url_for('static', filename='homeScript.js') }}" ></script>
-</head>
 {% block content %}
 <h1>Welcome {{customer.username}} !</h1>
 <h3>What are you looking for today?</h3>
 <div class="row">
-
     <!-- Display products in rows of 4 -->
-     <!-- Reference: StackOverflow. [Online]. [Accessed 26/11/2024]. 
+     <!-- Reference for loop.index0: StackOverflow. [Online]. [Accessed 26/11/2024]. 
       Available from https://stackoverflow.com/questions/27035728/flask-cannot-import-enumerate-undefinederror-enumerate-is-undefined -->
     {% for p in products %}
         {% if (loop.index0 + 1)%4 == 0 %}
@@ -26,7 +21,7 @@
                         <h4 lang="en">{{ p.name }}</h4>
                         <div class="row">
                             <div class="col">
-                            <p lang="en" class="price" id="price">£{{ p.price }}</p>
+                            <p lang="en" class="price" id="{{p.name}}price" onload="set2dp()">£{{ p.price }}</p>
                             </div>
                             <div class="col">
                                 <!-- Dropown allowing user to add multiple of one item to basket -->

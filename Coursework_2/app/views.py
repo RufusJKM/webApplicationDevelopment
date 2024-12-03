@@ -166,6 +166,7 @@ def addProduct():
 #AJAX response views
 @app.route('/changePrice', methods=['GET', 'POST'])
 def changePrice():
-    productID = json.loads(request.data)
+    dictionary = json.loads(request.data)
+    productID = int(dictionary["response"])
     product = models.Product.query.get(productID)
     return json.dumps({'status': 'OK', 'response': product.price })
