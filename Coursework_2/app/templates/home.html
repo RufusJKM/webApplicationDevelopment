@@ -1,7 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
+
 <h1>Welcome {{customer.username}} !</h1>
 <h3>What are you looking for today?</h3>
+<div class="row">
+    <form lang="en" action="" method="post" name="new">
+        {{ form.hidden_tag() }}
+        <p lang="en">
+            {{ form.filterChoice }}
+            
+            {{ form.sortChoice }}
+         
+        <input class="button" id="setFilters" type="submit" value="Set filters"></p>
+    </form>
+</div>
 <div class="row">
     <!-- Display products in rows of 4 -->
      <!-- Reference for loop.index0: StackOverflow. [Online]. [Accessed 26/11/2024]. 

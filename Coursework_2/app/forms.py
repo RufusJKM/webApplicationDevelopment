@@ -32,7 +32,7 @@ class SearchForm(FlaskForm):
 
 class FilterForm(FlaskForm):
      filterChoice = SelectField(u'Filter by ', choices=[('None', 'No Filter'), ('Vegetables', 'Vegetables'), ('Fruits', 'Fruits'),  ('Meats', 'Meats')], validators=[DataRequired()])
-     sortChoice = SelectField(u'Sort by ', choices=[('Alphabetical', 'A-Z'), ('PLowHigh', 'Price Low to High'), ('PHighLow', 'Price High to Low'),  ('Rating', 'Rating')], validators=[DataRequired()])
+     sortChoice = SelectField(u'Sort by ', choices=[('Alphabetical', 'A-Z'), ('PLowHigh', 'Price Low to High'), ('PHighLow', 'Price High to Low')], validators=[DataRequired()])
 
 class ProductForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])

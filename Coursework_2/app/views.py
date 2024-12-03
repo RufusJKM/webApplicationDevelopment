@@ -12,9 +12,6 @@ def getName(item):
 def getPrice(item):
     return item.price
 
-def getRating(item):
-    return item.rating
-
 #Login Page
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -121,13 +118,13 @@ def home():
             products = sorted(products, key=getName)
         elif (form.sortChoice.data == "PLowHigh"):
             products = sorted(products, key=getPrice)
-        elif (form.sortChoice.data == "PHighLow"):
-            products = sorted(products, key=getPrice, reverse=True)
         else:
-            products = sorted(products, key=getRating)
+            products = sorted(products, key=getPrice, reverse=True)
+        
+        
 
 
-    return render_template('home.html', title='Home', customer=customer, products=products)
+    return render_template('home.html', title='Home', customer=customer, products=products, form=form)
 
 #Account details view
 @app.route('/account', methods=['GET', 'POST'])
