@@ -37,14 +37,14 @@
                             </div>
                             <div class="col">
                                 <!-- Dropown allowing user to add multiple of one item to basket -->
-                                <a><select name={{p.name}} class='quantity' id="{{p.id}}">
+                                <select name="{{p.name}}" class='quantity' id="{{p.id}}">
                                     {% for i in range(p.count) %}
                                         <option value={{i+1}}>{{ i+1 }}</option>
                                     {% endfor %}
-                                </select></a>
+                                </select>
                             </div>
                         </div>
-                        <p lang="en"><input class="button" id="add" type="button" value="Add To Basket" onclick="addToBasket()"></p></a>
+                        <p lang="en"><input class="addButton" id="add,{{p.id}}" type="button" value="Add To Basket"></p>
                     </div>
                 </div>
                 {% if p.count <= 10 %}

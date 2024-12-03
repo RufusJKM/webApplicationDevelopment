@@ -139,6 +139,30 @@ def prevOrders():
 #Basket view
 @app.route('/basket', methods=['GET', 'POST'])
 def basket():
+    customerID = session['customer']
+    customer = models.Customer.query.get(customerID)
+    numBaskets = 0
+    for basket in customer.baskets:
+        numBaskets+=1
+    if numBaskets == 0:
+        b = models.Basket(customer_id=customerID)
+        db.session.add(b)
+        db.session.commit()
+        basketID = 1
+    else:
+        basketID = numBaskets
+
+    basket = models.Basket.query.get(basketID)
+    print(basketID)
+    basketproducts = []
+    products = []
+    for basketproduct in basket.products:
+        basketproducts.append(basketproduct)
+        product = models.Product.query.get(basketproduct.product_id)
+        products.append(product)
+        print(product.name)
+    
+
     return render_template('basket.html', title='Your Basket')
 
 #View to add products to db
@@ -164,6 +188,30 @@ def addProduct():
 @app.route('/changePrice', methods=['GET', 'POST'])
 def changePrice():
     dictionary = json.loads(request.data)
-    productID = int(dictionary["response"])
+    productID = int(dictionary["prodID"])
     product = models.Product.query.get(productID)
     return json.dumps({'status': 'OK', 'response': product.price })
+
+@app.route('/addToBasket', methods=['GET', 'POST'])
+def addToBasket():
+    dictionary = json.loads(request.data)
+    productID = int(dictionary["pID"])
+    quantity = int(dictionary["quantity"])
+    product = models.Product.query.get(productID)
+    customerID = session['customer']
+    customer = models.Customer.query.get(customerID)
+    numBaskets = 0
+    for basket in customer.baskets:
+        numBaskets+=1
+    if numBaskets == 0:
+        b = models.Basket(customer_id=customerID)
+        db.session.add(b)
+        db.session.commit()
+        basketID = 1
+    else:
+        basketID = numBaskets
+    bp = models.BasketProducts(basket_id=basketID, product_id=productID, quantity=quantity)
+    db.session.add(bp)
+    db.session.commit()
+
+    return json.dumps({'status': 'OK', 'response': productID })

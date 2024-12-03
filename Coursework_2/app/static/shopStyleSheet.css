@@ -92,10 +92,16 @@ h4 {
     background-color: darkgrey;
 }
 
-#add {
+.addButton {
+    height: 35px;
+    width: 120px;
+    background-color: #00005B;
+    color: #cdcdcd;
     font-size: 14px;
 }
 
-
+#setFilters {
+    font-size: 14px;
+}
 
 

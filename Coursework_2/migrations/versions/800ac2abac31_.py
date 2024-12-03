@@ -21,6 +21,7 @@ def upgrade():
     op.create_table('basket_products',
     sa.Column('basket_id', sa.Integer(), nullable=False),
     sa.Column('product_id', sa.Integer(), nullable=False),
+    sa.Column('quantity', sa.Integer(), nullable=False),
     sa.ForeignKeyConstraint(['basket_id'], ['basket.id'], ),
     sa.ForeignKeyConstraint(['product_id'], ['product.id'], ),
     sa.PrimaryKeyConstraint('basket_id', 'product_id')
