@@ -1,4 +1,8 @@
 {% extends "base.html" %}
+<head>
+	<script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}" ></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='homeScript.js') }}" ></script>
+</head>
 {% block content %}
 <h1>Welcome {{customer.username}} !</h1>
 <h3>What are you looking for today?</h3>
@@ -26,11 +30,11 @@
                             </div>
                             <div class="col">
                                 <!-- Dropown allowing user to add multiple of one item to basket -->
-                                <select name={{p.id}} class='quantity'>
+                                <a><select name={{p.name}} class='quantity' id="{{p.id}}">
                                     {% for i in range(p.count) %}
                                         <option value={{i+1}}>{{ i+1 }}</option>
                                     {% endfor %}
-                                </select>
+                                </select></a>
                             </div>
                         </div>
                         <p lang="en"><input class="button" id="add" type="button" value="Add To Basket" onclick="addToBasket()"></p></a>
@@ -43,5 +47,6 @@
         </div>
     {% endfor %}
 </div>
+<script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}" ></script>
 <script src="static/homeScript.js"></script> 
 {% endblock %}

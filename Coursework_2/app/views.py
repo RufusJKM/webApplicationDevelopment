@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect, url_for, session
+from flask import render_template, flash, redirect, url_for, session, request
 from app import app, db, models, admin
 from flask_admin.contrib.sqla import ModelView
 from .models import Product, Customer
