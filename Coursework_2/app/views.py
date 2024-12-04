@@ -155,14 +155,12 @@ def basket():
     basket = models.Basket.query.get(basketID)
     print(basketID)
     products = []
-
-    #while quantity column doesn't work, i will store the quantities in a list instead
     quantities = []
     total = 0
     for basketproduct in basket.products:
         product = models.Product.query.get(basketproduct.product_id)
         products.append(product)
-        quantities.append(5)
+        quantities.append(basketproduct.quantity)
         #quantities.append(basketproduct.quantity)
         #total = total + product.price*basketproduct.quantity
     #print(quantities)
@@ -202,6 +200,7 @@ def addToBasket():
     productID = int(dictionary["pID"])
     quantity = int(dictionary["quantity"])
     product = models.Product.query.get(productID)
+    print(product.name, quantity)
     customerID = session['customer']
     customer = models.Customer.query.get(customerID)
     numBaskets = 0
@@ -215,20 +214,41 @@ def addToBasket():
     else:
         basketID = numBaskets
 
-    #if we are removing items
-    if quantity < 0:
-        #check db quantity >= remove quantity
-        bp = models.BasketProducts.query.get(basketID, productID)
+    # 0 is returned when removing from basket entirely
+    if quantity == 0:
+        print(basketID)
+        print(productID)
+        bp = models.BasketProducts.query.filter_by(basket_id=basketID, product_id=productID).first()
         db.session.delete(bp)
+        db.session.commit()
+        return json.dumps({'status': 'OK', 'response': 'deleted'})
+    
+    # take 1 off quantity, check if this deletes it entirely 
+    elif quantity < 0:
+        bp = models.BasketProducts.query.filter_by(basket_id=basketID, product_id=productID).first()
+        bp.quantity = bp.quantity + quantity
+        db.session.commit()
+        if bp.quantity <= 0:
+            db.session.delete(bp)
+            db.session.commit()
+            return json.dumps({'status': 'OK', 'response': 'deleted'})
+        else:
+            return json.dumps({'status': 'OK', 'response': bp.quantity})
+    #check if we are adding new product or more of one already in basket
     else:
+        #if product is already in basket check addition won't exceed stock count
         for bp in models.BasketProducts.query.all():
             if bp.product_id == productID:
                 currentQuant = bp.quantity
                 stockQuant = product.count
                 if stockQuant < (currentQuant + quantity):
-                    return json.dumps({'status': '', 'response': })
-
+                    return json.dumps({'status': 'ERROR', 'response': currentQuant})
+                else:
+                    bp.quantity = currentQuant + quantity
+                    db.session.commit()
+                    return json.dumps({'status': 'OK', 'response': currentQuant + quantity})
         
+    
     bp = models.BasketProducts(basket_id=basketID, product_id=productID, quantity=quantity)
     db.session.add(bp)
     db.session.commit()

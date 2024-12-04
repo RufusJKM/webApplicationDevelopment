@@ -1,5 +1,13 @@
 $(document).ready(function() {
-
+    //set prices to 2dp
+    var prices = document.getElementsByClassName("price");
+    for (var i = 0; i < prices.length; i++){
+        var currentPrice = prices[i].innerHTML;
+        currentPrice = parseFloat(currentPrice.substring(1, currentPrice.length));
+        currentPrice = currentPrice.toFixed(2);
+        currentPrice = "£".concat(currentPrice);
+        prices[i].innerHTML = currentPrice;
+    }
     // Set the token so that we are not rejected by server
       var csrf_token = $('meta[name=csrf-token]').attr('content');
     // Configure ajaxSetup so that the CSRF token is added to the header of every request
@@ -19,13 +27,11 @@ $(document).ready(function() {
     for (i; i < len; i++){
         //three different buttons all altering basket
         //reusing addToBasket function just adding functioanilty to remove
-
         $(removeAll[i]).click(function(){
             var buttonID = this.id;
             var parts = buttonID.split(",");
             var productID = parts[1];
-            var quantity = quantities[productID-1];
-            quantity = 0 - quantity;
+            var index = parts[2];
             console.log(buttonID);
             console.log(productID);
 
@@ -36,7 +42,7 @@ $(document).ready(function() {
                 type: 'POST',
                 // The data, which is now most commonly formatted using JSON because of its
                 // simplicity and is native to JavaScript.
-                data: JSON.stringify({ pID: productID, quantity: quantity }),
+                data: JSON.stringify({ pID: productID, quantity: 0 }),
                 // Specify the format of the data which will be sent.
                 contentType: "application/json; charset=utf-8",
                 // The data type itself.
@@ -45,7 +51,7 @@ $(document).ready(function() {
                 // a response successfully returned.
                 success: function(response){
                     console.log(response);
-                    //reload page
+                    location.reload();
                 },
                 // The function which will be triggered if any error occurs.
                 error: function(error){
@@ -53,12 +59,12 @@ $(document).ready(function() {
                 }
               });
             });
-        
+
         $(minus[i]).click(function(){
             var buttonID = this.id;
             var parts = buttonID.split(",");
             var productID = parts[1];
-            var quantity = quantities[productID-1];
+            var index = parts[2];
             console.log(buttonID);
             console.log(productID);
 
@@ -78,7 +84,12 @@ $(document).ready(function() {
                 // a response successfully returned.
                 success: function(response){
                     console.log(response);
-                    //edit inner html of price and quantity
+                    if (response["response"] == "deleted"){
+                        location.reload()
+                    } else {
+                        //edit inner html of price and quantity
+                    }
+                    
                 },
                 // The function which will be triggered if any error occurs.
                 error: function(error){
@@ -91,7 +102,6 @@ $(document).ready(function() {
             var buttonID = this.id;
             var parts = buttonID.split(",");
             var productID = parts[1];
-            var quantity = quantities[productID-1];
             console.log(buttonID);
             console.log(productID);
 

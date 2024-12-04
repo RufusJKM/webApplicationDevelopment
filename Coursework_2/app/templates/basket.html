@@ -17,23 +17,23 @@
                 <h4 lang="en">{{ p.name }}</h4>
                 <div class="row">
                     <div class="col">
-                    <p lang="en" class="price" id="{{p.name}}price">£{{ p.price }}</p>
+                    <p lang="en" class="price" id="{{p.name}}price">£{{ p.price*quantities[loop.index0] }}</p>
                     </div>
                     <div class="col">
                         <div class="row">
                             <div class="col-1">
-                                <input class="quant minus" id="minus,{{p.id}}" type="button" value="-">
+                                <input class="quant minus" id="minus,{{p.id}},{{loop.index0}}" type="button" value="-">
                             </div>
                             <div class="col-2">
-                                <p class="quantity" id="quant,{{p.id}}">{{quantities[loop.index0-1]}}</p>
+                                <p class="quantity" id="quant,{{p.id}},{{loop.index0}}">{{quantities[loop.index0]}}</p>
                             </div>
                             <div class="col-3">
-                                <input class="quant plus" id="plus,{{p.id}}" type="button" value="+">
+                                <input class="quant plus" id="plus,{{p.id}},{{loop.index0}}" type="button" value="+">
                             </div>
                         </div>
                     </div>
                 </div>
-                <p lang="en"><input class="removeButton" id="remove,{{p.id}}" type="button" value="Remove From Basket"></p>
+                <p lang="en"><input class="removeButton" id="remove,{{p.id}},{{loop.index0}}" type="button" value="Remove From Basket"></p>
             </div>
         </div>
     </div>
