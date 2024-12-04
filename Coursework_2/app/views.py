@@ -214,6 +214,20 @@ def addToBasket():
         basketID = 1
     else:
         basketID = numBaskets
+
+    #if we are removing items
+    if quantity < 0:
+        #check db quantity >= remove quantity
+        bp = models.BasketProducts.query.get(basketID, productID)
+        db.session.delete(bp)
+    else:
+        for bp in models.BasketProducts.query.all():
+            if bp.product_id == productID:
+                currentQuant = bp.quantity
+                stockQuant = product.count
+                if stockQuant < (currentQuant + quantity):
+                    return json.dumps({'status': '', 'response': })
+
         
     bp = models.BasketProducts(basket_id=basketID, product_id=productID, quantity=quantity)
     db.session.add(bp)
