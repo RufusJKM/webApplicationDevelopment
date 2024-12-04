@@ -93,6 +93,7 @@ def signUp():
 #Home view
 @app.route('/home', methods=['GET', 'POST'])
 def home():
+    error=False
     customerID = session['customer']
     customer = models.Customer.query.get(customerID)
     products = []
@@ -120,11 +121,8 @@ def home():
             products = sorted(products, key=getPrice)
         else:
             products = sorted(products, key=getPrice, reverse=True)
-        
-        
 
-
-    return render_template('home.html', title='Home', customer=customer, products=products, form=form)
+    return render_template('home.html', title='Home', customer=customer, products=products, form=form, error=error)
 
 #Account details view
 @app.route('/account', methods=['GET', 'POST'])
@@ -161,9 +159,7 @@ def basket():
         product = models.Product.query.get(basketproduct.product_id)
         products.append(product)
         quantities.append(basketproduct.quantity)
-        #quantities.append(basketproduct.quantity)
-        #total = total + product.price*basketproduct.quantity
-    #print(quantities)
+        total = total + product.price*basketproduct.quantity
 
     return render_template('basket.html', title='Your Basket', products=products, quantities=quantities, total=total)
 
@@ -226,6 +222,7 @@ def addToBasket():
     # take 1 off quantity, check if this deletes it entirely 
     elif quantity < 0:
         bp = models.BasketProducts.query.filter_by(basket_id=basketID, product_id=productID).first()
+        origianl = bp.quantity
         bp.quantity = bp.quantity + quantity
         db.session.commit()
         if bp.quantity <= 0:
@@ -233,7 +230,7 @@ def addToBasket():
             db.session.commit()
             return json.dumps({'status': 'OK', 'response': 'deleted'})
         else:
-            return json.dumps({'status': 'OK', 'response': bp.quantity})
+            return json.dumps({'status': 'OK', 'quantity': bp.quantity, 'price': product.price, 'original': origianl})
     #check if we are adding new product or more of one already in basket
     else:
         #if product is already in basket check addition won't exceed stock count
@@ -242,15 +239,41 @@ def addToBasket():
                 currentQuant = bp.quantity
                 stockQuant = product.count
                 if stockQuant < (currentQuant + quantity):
-                    return json.dumps({'status': 'ERROR', 'response': currentQuant})
+                    return json.dumps({'status': 'ERROR', 'feedback': f"Only {product.count} {product.name} left in stock, you already have {currentQuant} in your basket!"})
                 else:
                     bp.quantity = currentQuant + quantity
                     db.session.commit()
-                    return json.dumps({'status': 'OK', 'response': currentQuant + quantity})
+                    tPrice = product.price*quantity
+                    tPrice = "{:.2f}".format(tPrice)
+                    print(tPrice)
+                    return json.dumps({'status': 'OK', 'feedback': f"Added {quantity} {product.name} to basket for £{tPrice}", 'price': tPrice, 'quantity': currentQuant + quantity, 'original': currentQuant})
         
     
     bp = models.BasketProducts(basket_id=basketID, product_id=productID, quantity=quantity)
     db.session.add(bp)
     db.session.commit()
+    tPrice = product.price*quantity
+    tPrice = "{:.2f}".format(tPrice)
+    print(tPrice)
+    return json.dumps({'status': 'OK', 'feedback': f"Added {quantity} {product.name} to basket for £{tPrice}" })
 
-    return json.dumps({'status': 'OK', 'response': productID })
+@app.route('/makeOrder', methods=['GET', 'POST'])
+def makeOrder():
+    dictionary = json.loads(request.data)
+    array = dictionary["array"]
+    for item in array:
+        pID = item[0]
+        quantity = item[1]
+        product = models.Product.query.get(pID)
+        if product.count < quantity:
+            return json.dumps({'status': 'ERROR', 'feedback': f"Only {product.quantity} {product.name} left in stock!"})
+        else:
+            #change stock count
+            product.quantity = product.quantity-quantity
+            db.session.commit
+            #give the user a new basket
+            customerID = session['customer']
+            b = models.Basket(customer_id=customerID)
+            db.session.commit()
+            #return to basket page with message
+            return json.dumps({'status': 'OK', 'feedback': f"Order successful, view your account to see details!"})

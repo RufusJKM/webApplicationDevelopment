@@ -17,7 +17,7 @@
                 <h4 lang="en">{{ p.name }}</h4>
                 <div class="row">
                     <div class="col">
-                    <p lang="en" class="price" id="{{p.name}}price">£{{ p.price*quantities[loop.index0] }}</p>
+                    <p lang="en" class="price" id="{{p.id}}price">£{{ p.price*quantities[loop.index0] }}</p>
                     </div>
                     <div class="col">
                         <div class="row">
@@ -33,7 +33,7 @@
                         </div>
                     </div>
                 </div>
-                <p lang="en"><input class="removeButton" id="remove,{{p.id}},{{loop.index0}}" type="button" value="Remove From Basket"></p>
+                <p lang="en"><input class="removeButton" id="remove,{{p.id}},{{loop.index0}}" type="button" value="Remove All"></p>
             </div>
         </div>
     </div>
@@ -41,13 +41,14 @@
 {% endfor %}
 </div>
 <div class="row">
-    <div class="col">
-        <p lang="en" class="total">Total: £{{total}}</p>
+    <div class="col-1">
+        <p lang="en" class="total" id="total">Total: £{{total}}</p>
     </div>
-    <div class="col">
+    <div class="col-3">
         <p lang="en"><input class="button" id="order" type="submit" value="Order Now"></p>
     </div>
 </div>
+<p id="feedback"></p>
 <script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}" ></script>
 <script src="static/basketScript.js"></script> 
 {% endblock %}

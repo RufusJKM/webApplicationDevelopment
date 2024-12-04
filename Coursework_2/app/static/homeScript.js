@@ -104,6 +104,9 @@ $(document).ready(function() {
         // a response successfully returned.
         success: function(response){
             console.log(response);
+            var message = response["feedback"];
+            var feedback = document.getElementById("feedback");
+            feedback.innerHTML = message;
         },
         // The function which will be triggered if any error occurs.
         error: function(error){

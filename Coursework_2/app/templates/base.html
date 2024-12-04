@@ -48,11 +48,11 @@
                   {% for message in messages %}
                     {% if error == True %}
                       <div class="alert alert-danger">
-                          {{ message }}
+                          <p id="flash1">{{ message }}</p>
                       </div>
                     {% else %}
                       <div class="alert alert-success">
-                        {{ message }}
+                        <p id="flash2">{{ message }}</p>
                       </div>
                     {% endif %}
                   {% endfor %}
