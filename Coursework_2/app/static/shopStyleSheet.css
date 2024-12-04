@@ -126,6 +126,19 @@ h4 {
     font-size: 14px;
 }
 
+.changeButton {
+    height: 35px;
+    width: 170px;
+    background-color: #00005B;
+    color: #cdcdcd;
+    font-size: 18px;
+}
+
+.changeButton:hover {
+    border: 1px double black;
+    background-color: #00006B;
+}
+
 .quant {
     background-color: #ffffff;
     color: #000000;

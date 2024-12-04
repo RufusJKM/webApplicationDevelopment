@@ -127,10 +127,91 @@ def home():
 #Account details view
 @app.route('/account', methods=['GET', 'POST'])
 def account():
+    error = False
+    passwordChange = False
     customerID = session['customer']
     customer = models.Customer.query.get(customerID)
     form = EditAccountForm()
-    return render_template('account.html', title='Your Account', customer=customer, form=form)
+    baskets = []
+    totals = []
+    for basket in customer.baskets:
+        total = 0
+        items = []
+        for basketproduct in basket.products:
+            itemInfo = []
+            pID = basketproduct.product_id
+            product = models.Product.query.get(pID)
+            name = product.name
+            price=product.price
+            quantity = basketproduct.quantity
+            price = price*quantity
+            total = total + price
+            itemInfo.append(name)
+            itemInfo.append(quantity)
+            itemInfo.append(price)
+            items.append(itemInfo)
+        baskets.append(items)
+        totals.append(total)
+    baskets = baskets[:-1]
+
+    if form.validate_on_submit():
+        # email and username must be unique
+        for c in models.Customer.query.all():
+            if c.id != customerID:
+                if c.email == form.email.data:
+                    error = True
+                    flash(f"Email already in use")
+                elif c.username == form.username.data:
+                    error = True
+                    flash(f"Username already in use")
+
+        if form.currentPassword.data != "":
+            if customer.password == form.currentPassword.data:
+                newPassword = form.newPassword.data
+                if len(password) >= 8:
+                    length = True
+                for character in password:
+                    c = ord(character)
+                    if (c >= 48 and c <= 57):
+                        num = True
+                    elif (c >= 65 and c <= 90):
+                        uCase = True
+                
+                if length == False:
+                    error = True
+                    flash("Password must contain at least 8 characters")
+
+                if num == False:
+                    error = True
+                    flash("Password must contain at least 1 number")
+
+                if uCase == False:
+                    error = True
+                    flash("Password must contain at least 1 upper case letter")
+                
+                if newPassword != form.copyPassword.data:
+                    error = True
+                    flash("Passwords do not match")
+            else:
+                error = True
+                flash(f"Incorrect password for {customer.username}")
+
+            if error == False:
+                passwordChange = True
+
+        if error == False:
+            customer.first_name = form.first_name.data
+            customer.last_name = form.last_name.data
+            customer.email = form.email.data
+            customer.username = form.username.data
+            db.session.commit()
+
+            if passwordChange == True:
+                customer.password = form.newPassword.data
+                db.session.commit()
+
+
+    return render_template('account.html', title='Your Account', customer=customer, form=form, baskets=baskets, totals=totals, error=error)
 
 #Basket view
 @app.route('/basket', methods=['GET', 'POST'])
@@ -138,15 +219,15 @@ def basket():
     customerID = session['customer']
     customer = models.Customer.query.get(customerID)
     numBaskets = 0
+    basketID = 0
     for basket in customer.baskets:
         numBaskets+=1
+        basketID = basket.id
     if numBaskets == 0:
         b = models.Basket(customer_id=customerID)
         db.session.add(b)
         db.session.commit()
-        basketID = 1
-    else:
-        basketID = numBaskets
+        basketID = b.id
 
     basket = models.Basket.query.get(basketID)
     print(basketID)
@@ -200,15 +281,15 @@ def addToBasket():
     customerID = session['customer']
     customer = models.Customer.query.get(customerID)
     numBaskets = 0
+    basketID = 0
     for basket in customer.baskets:
         numBaskets+=1
+        basketID = basket.id
     if numBaskets == 0:
         b = models.Basket(customer_id=customerID)
         db.session.add(b)
         db.session.commit()
-        basketID = 1
-    else:
-        basketID = numBaskets
+        basketID = b.id
 
     print(basketID)
 
@@ -266,7 +347,7 @@ def makeOrder():
         quantity = item[1]
         product = models.Product.query.get(pID)
         if product.count < int(quantity):
-            return json.dumps({'status': 'ERROR', 'feedback': f"Only {product.quantity} {product.name} left in stock!"})
+            return json.dumps({'status': 'ERROR', 'feedback': f"Only {product.stock} {product.name} left in stock!"})
         else:
             #change stock count
             print(product.count)

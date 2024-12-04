@@ -51,4 +51,4 @@ class BasketProducts(db.Model):
     quantity = db.Column(db.Integer)
 
     def __repr__(self): 
-            return '{}'.format(self.quantity)
+            return '{}{}{}'.format(self.basket_id, self.product_id, self.quantity)

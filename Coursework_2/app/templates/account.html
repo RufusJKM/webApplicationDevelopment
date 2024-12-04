@@ -25,6 +25,35 @@
     <p lang="en">
         Repeat New Password: {{ form.copyPassword }}<br>
     </p>
-    <p lang="en"><input class="button" type="submit" value="Change Details"></p>
+
+    <p lang="en"><input class="changeButton" type="submit" value="Change Details"></p>
 </form>
+<h2 lang="en"><u>Your Orders</u></h2>
+<div class="col-3">
+{% for basket in baskets %}
+    <br>
+    <p><u>Order {{loop.index0 + 1}}</u></p>
+    <table lang="en">
+        <tr>
+            <th>Product</th>
+            <th>Quantity</th>
+            <th>Price</th>
+        </tr>
+    {% for item in basket %}
+        <tr>
+            <td>{{item[0]}}</td>
+            <td>{{item[1]}}</td>
+            <td class="price">£{{item[2]}}</td>
+        </tr>
+    {% endfor %}
+    <tr>
+        <td rowspan=2 colspan=2>Total</th>
+        <td class="price">£{{totals[loop.index0]}}</th>
+    </tr>
+    </table>
+    <br>
+{% endfor %}
+</div>
+<script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}" ></script>
+<script src="static/accountScript.js"></script> 
 {% endblock %}
