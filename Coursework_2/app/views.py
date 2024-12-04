@@ -210,10 +210,10 @@ def addToBasket():
     else:
         basketID = numBaskets
 
+    print(basketID)
+
     # 0 is returned when removing from basket entirely
     if quantity == 0:
-        print(basketID)
-        print(productID)
         bp = models.BasketProducts.query.filter_by(basket_id=basketID, product_id=productID).first()
         db.session.delete(bp)
         db.session.commit()
@@ -235,7 +235,7 @@ def addToBasket():
     else:
         #if product is already in basket check addition won't exceed stock count
         for bp in models.BasketProducts.query.all():
-            if bp.product_id == productID:
+            if bp.product_id == productID and bp.basket_id == basketID:
                 currentQuant = bp.quantity
                 stockQuant = product.count
                 if stockQuant < (currentQuant + quantity):
@@ -265,15 +265,19 @@ def makeOrder():
         pID = item[0]
         quantity = item[1]
         product = models.Product.query.get(pID)
-        if product.count < quantity:
+        if product.count < int(quantity):
             return json.dumps({'status': 'ERROR', 'feedback': f"Only {product.quantity} {product.name} left in stock!"})
         else:
             #change stock count
-            product.quantity = product.quantity-quantity
+            print(product.count)
+            print(quantity)
+            product.count = product.count-int(quantity)
             db.session.commit
-            #give the user a new basket
-            customerID = session['customer']
-            b = models.Basket(customer_id=customerID)
-            db.session.commit()
-            #return to basket page with message
-            return json.dumps({'status': 'OK', 'feedback': f"Order successful, view your account to see details!"})
+            print(product.count)
+    #give the user a new basket
+    customerID = session['customer']
+    b = models.Basket(customer_id=customerID)
+    db.session.add(b)
+    db.session.commit()
+    #return to basket page with message
+    return json.dumps({'status': 'OK', 'feedback': f"Order successful, view your account to see details!"})

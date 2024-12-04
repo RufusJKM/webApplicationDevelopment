@@ -217,8 +217,14 @@ $(document).ready(function() {
             // Define the function which will be triggered if the request is received and
             // a response successfully returned.
             success: function(response){
-                console.log(response);
-                location.reload();
+                if (response["status"] == "ERROR"){
+                    var feedback = document.getElementById("feedback");
+                    feedback.innerHTML = response["feedback"];
+                } else {
+                    location.reload();
+                    var feedback = document.getElementById("feedback");
+                    feedback.innerHTML = response["feedback"];
+                }
             },
             // The function which will be triggered if any error occurs.
             error: function(error){
