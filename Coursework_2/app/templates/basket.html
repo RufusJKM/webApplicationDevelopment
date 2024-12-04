@@ -20,12 +20,17 @@
                     <p lang="en" class="price" id="{{p.name}}price">£{{ p.price }}</p>
                     </div>
                     <div class="col">
-                        <!-- Dropown showing product quantity -->
-                        <select name="{{p.name}}" class='quantity' id="{{p.id}}">
-                            {% for i in range(quantities[loop.index0 - 1]) %}
-                                <option value={{ quantities[loop.index0 - 1] - i }}>{{ quantities[loop.index0 - 1] - i }}</option>
-                            {% endfor %}
-                        </select>
+                        <div class="row">
+                            <div class="col-1">
+                                <input class="quant minus" id="minus,{{p.id}}" type="button" value="-">
+                            </div>
+                            <div class="col-2">
+                                <p>{{quantities[loop.index0-1]}}</p>
+                            </div>
+                            <div class="col-3">
+                                <input class="quant plus" id="plus,{{p.id}}" type="button" value="+">
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <p lang="en"><input class="removeButton" id="remove,{{p.id}}" type="button" value="Remove From Basket"></p>
@@ -43,4 +48,6 @@
         <p lang="en"><input class="button" id="order" type="submit" value="Order Now"></p>
     </div>
 </div>
+<script type="text/javascript" src="{{ url_for('static', filename='jquery.min.js') }}" ></script>
+<script src="static/basketScript.js"></script> 
 {% endblock %}
