@@ -1,5 +1,46 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>View and amend your basket</h1>
-
+<div class="row">
+{% for p in products %}
+{% if (loop.index0 + 1)%4 == 0 %}
+    </div>
+    <div class="row">
+{% endif %}
+<div class="col-3">
+    <div class="product">
+        <div class="row">
+            <div class="col">
+                <img lang="en" src={{p.imgurl}} alt="{{ p.name }} Stock Image" width="150" height="150">
+            </div>
+            <div class="col">
+                <h4 lang="en">{{ p.name }}</h4>
+                <div class="row">
+                    <div class="col">
+                    <p lang="en" class="price" id="{{p.name}}price">£{{ p.price }}</p>
+                    </div>
+                    <div class="col">
+                        <!-- Dropown showing product quantity -->
+                        <select name="{{p.name}}" class='quantity' id="{{p.id}}">
+                            {% for i in range(quantities[loop.index0 - 1]) %}
+                                <option value={{ quantities[loop.index0 - 1] - i }}>{{ quantities[loop.index0 - 1] - i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <p lang="en"><input class="removeButton" id="remove,{{p.id}}" type="button" value="Remove From Basket"></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+</div>
+<div class="row">
+    <div class="col">
+        <p lang="en" class="total">Total: £{{total}}</p>
+    </div>
+    <div class="col">
+        <p lang="en"><input class="button" id="order" type="submit" value="Order Now"></p>
+    </div>
+</div>
 {% endblock %}

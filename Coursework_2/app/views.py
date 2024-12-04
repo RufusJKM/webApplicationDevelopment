@@ -154,16 +154,20 @@ def basket():
 
     basket = models.Basket.query.get(basketID)
     print(basketID)
-    basketproducts = []
     products = []
+
+    #while quantity column doesn't work, i will store the quantities in a list instead
+    quantities = []
+    total = 0
     for basketproduct in basket.products:
-        basketproducts.append(basketproduct)
         product = models.Product.query.get(basketproduct.product_id)
         products.append(product)
-        print(product.name)
-    
+        quantities.append(5)
+        #quantities.append(basketproduct.quantity)
+        #total = total + product.price*basketproduct.quantity
+    #print(quantities)
 
-    return render_template('basket.html', title='Your Basket')
+    return render_template('basket.html', title='Your Basket', products=products, quantities=quantities, total=total)
 
 #View to add products to db
 @app.route('/addProduct', methods=['GET', 'POST'])
@@ -210,6 +214,7 @@ def addToBasket():
         basketID = 1
     else:
         basketID = numBaskets
+        
     bp = models.BasketProducts(basket_id=basketID, product_id=productID, quantity=quantity)
     db.session.add(bp)
     db.session.commit()
