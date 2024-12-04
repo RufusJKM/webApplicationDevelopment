@@ -35,20 +35,30 @@
                             <div class="col">
                             <p lang="en" class="price" id="{{p.name}}price">£{{ p.price }}</p>
                             </div>
-                            <div class="col">
-                                <!-- Dropown allowing user to add multiple of one item to basket -->
-                                <select name="{{p.name}}" class='quantity' id="{{p.id}}">
-                                    {% for i in range(p.count) %}
-                                        <option value={{i+1}}>{{ i+1 }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
+                            {% if p.count != 0 %}
+                                <div class="col">
+                                    <!-- Dropown allowing user to add multiple of one item to basket -->
+                                    <select name="{{p.name}}" class='quantity' id="{{p.id}}">
+                                        {% for i in range(p.count) %}
+                                            <option value={{i+1}}>{{ i+1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            {% endif %}
                         </div>
-                        <p lang="en"><input class="addButton" id="add,{{p.id}}" type="button" value="Add To Basket"></p>
+                        {% if p.count == 0 %}
+                            <p lang="en"><input class="outButton" id="out,{{p.id}}" type="button" value="Out Of Stock"></p>
+                        {% else %}
+                            <p lang="en"><input class="addButton" id="add,{{p.id}}" type="button" value="Add To Basket"></p>
+                        {% endif %}
                     </div>
                 </div>
                 {% if p.count <= 10 %}
-                    <p lang="en" class="warning">Only {{ p.count }} left in stock!</p>
+                    {% if p.count == 0 %}
+                        <p lang="en" class="warning">Sorry, {{ p.name }} is out of stock!</p>  
+                    {% else %}
+                        <p lang="en" class="warning">Only {{ p.count }} left in stock!</p>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>

@@ -100,6 +100,32 @@ h4 {
     font-size: 14px;
 }
 
+.add:hover {
+    border: 1px double black;
+    background-color: #00006B;
+}
+
+.removeButton {
+    height: 35px;
+    width: 120px;
+    background-color: #00005B;
+    color: #cdcdcd;
+    font-size: 18px;
+}
+
+.remove:hover {
+    border: 1px double black;
+    background-color: #00006B;
+}
+
+.outButton {
+    height: 35px;
+    width: 120px;
+    background-color: #cdcdcd;
+    color: #000000;
+    font-size: 14px;
+}
+
 .quant {
     background-color: #ffffff;
     color: #000000;

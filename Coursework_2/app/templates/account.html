@@ -1,4 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>View and amend account details</h1>
+<h1>View and amend account details or view orders</h1>
+<form lang="en" action="" method="post" name="new">
+    {{ form.hidden_tag() }}
+    <p lang="en">
+        First Name: {{ form.first_name(value=customer.first_name) }}<br>
+    </p>
+    <p lang="en">
+        Last Name: {{ form.last_name(value=customer.last_name) }}<br>
+    </p>
+    <p lang="en">
+        Email: {{ form.email(value=customer.email) }}<br>
+    </p>
+    <p lang="en">
+        Username: {{ form.username(value=customer.username) }}<br>
+    </p>
+    <p lang="en">To change password, first enter your current password</p>
+    <p lang="en">
+        Current Password: {{ form.currentPassword }}<br>
+    </p>
+    <p lang="en">
+        New Password: {{ form.newPassword }}<br>
+    </p>
+    <p lang="en">
+        Repeat New Password: {{ form.copyPassword }}<br>
+    </p>
+    <p lang="en"><input class="button" type="submit" value="Change Details"></p>
+</form>
 {% endblock %}

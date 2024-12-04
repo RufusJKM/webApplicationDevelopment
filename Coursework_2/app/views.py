@@ -2,7 +2,7 @@ from flask import render_template, flash, redirect, url_for, session, request
 from app import app, db, models, admin
 from flask_admin.contrib.sqla import ModelView
 from .models import Product, Customer
-from .forms import NewAccountForm, LoginForm, NewCardForm, ChooseCardForm, RatingForm, SearchForm, FilterForm, ProductForm
+from .forms import NewAccountForm, LoginForm, NewCardForm, ChooseCardForm, RatingForm, SearchForm, FilterForm, ProductForm, EditAccountForm
 
 import json
 
@@ -127,12 +127,10 @@ def home():
 #Account details view
 @app.route('/account', methods=['GET', 'POST'])
 def account():
-    return render_template('account.html', title='Your Account')
-
-#Basket view
-@app.route('/prevOrders', methods=['GET', 'POST'])
-def prevOrders():
-    return render_template('prevOrders.html', title='Your Orders')
+    customerID = session['customer']
+    customer = models.Customer.query.get(customerID)
+    form = EditAccountForm()
+    return render_template('account.html', title='Your Account', customer=customer, form=form)
 
 #Basket view
 @app.route('/basket', methods=['GET', 'POST'])
@@ -163,24 +161,26 @@ def basket():
 
     return render_template('basket.html', title='Your Basket', products=products, quantities=quantities, total=total)
 
-#View to add products to db
-@app.route('/addProduct', methods=['GET', 'POST'])
-def addProduct():
-    error = False
-    form = ProductForm()
-    if form.validate_on_submit():
-        for product in models.Product.query.all():
-            if product.name == form.name.data:
-                error = True
-                flash(f"{form.name.data} is already in the database")
+#View to add products to db 
+#used only during production to manually alter db
+#couldn't get flask_admin to run so i made a view instead
+# @app.route('/addProduct', methods=['GET', 'POST'])
+# def addProduct():
+#     error = False
+#     form = ProductForm()
+#     if form.validate_on_submit():
+#         for product in models.Product.query.all():
+#             if product.name == form.name.data:
+#                 error = True
+#                 flash(f"{form.name.data} is already in the database")
 
-        if error == False:
-            p = models.Product(name=form.name.data, imgurl=form.imgurl.data, category=form.category.data, price=form.price.data, count=form.count.data, rating=0)
-            db.session.add(p)
-            db.session.commit()
-            flash(f"{form.name.data} added to the database")
+#         if error == False:
+#             p = models.Product(name=form.name.data, imgurl=form.imgurl.data, category=form.category.data, price=form.price.data, count=form.count.data, rating=0)
+#             db.session.add(p)
+#             db.session.commit()
+#             flash(f"{form.name.data} added to the database")
 
-    return render_template('admin.html', title='Admin', form=form, error=error)
+#     return render_template('admin.html', title='Admin', form=form, error=error)
 
 #AJAX response views
 @app.route('/changePrice', methods=['GET', 'POST'])

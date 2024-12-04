@@ -10,6 +10,15 @@ class NewAccountForm(FlaskForm):
     username = StringField('UName', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
 
+class EditAccountForm(FlaskForm):
+    first_name = StringField('FName', validators=[DataRequired()])
+    last_name = StringField('LName', validators=[DataRequired()])
+    email = EmailField('Email', validators=[DataRequired()])
+    username = StringField('UName', validators=[DataRequired()])
+    currentPassword = PasswordField('Password')
+    newPassword = PasswordField('Password')
+    copyPassword = PasswordField('Password')
+
 class LoginForm(FlaskForm):
     username = StringField('UName', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])

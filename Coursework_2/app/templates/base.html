@@ -32,10 +32,8 @@
           <div class="col"></div>
           <ul class="navbar-nav mr-auto">
             <li lang="en" class="nav-item"><a class="nav-link" href="/home">Home<span class="sr-only">(current)</span></a></li>
-            <li lang="en" class="nav-item"><a class="nav-link" href="/prevOrders">Your Orders</a></li>
             <li lang="en" class="nav-item"><a class="nav-link" href="/basket">Your Basket</a></li>
             <li lang="en" class="nav-item"><a class="nav-link" href="/account">Your Account</a></li>
-            <li lang="en" class="nav-item"><a class="nav-link" href="/admi">Admin</a></li>
           </ul>
           <div class="col"></div>
         </div>
@@ -48,11 +46,11 @@
                   {% for message in messages %}
                     {% if error == True %}
                       <div class="alert alert-danger">
-                          <p id="flash1">{{ message }}</p>
+                          <p id="flash">{{ message }}</p>
                       </div>
                     {% else %}
                       <div class="alert alert-success">
-                        <p id="flash2">{{ message }}</p>
+                        <p id="flash">{{ message }}</p>
                       </div>
                     {% endif %}
                   {% endfor %}
