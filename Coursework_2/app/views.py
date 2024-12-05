@@ -362,3 +362,8 @@ def makeOrder():
     db.session.commit()
     #return to basket page with message
     return json.dumps({'status': 'OK', 'feedback': f"Order successful, view your account to see details!"})
+
+@app.route('/makeOrder', methods=['GET', 'POST'])
+def logOut():
+    session.pop('customer',None)
+    return redirect(url_for('login'))
