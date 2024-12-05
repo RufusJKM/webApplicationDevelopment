@@ -108,7 +108,7 @@ def home():
             
             for p in models.Product.query.filter_by(category=form.filterChoice.data).all():
                 products.append(p)
-        #Otherwise keep the assessments list full
+        #Otherwise keep the products list full
         else:
             products = []
             for p in models.Product.query.all():
@@ -363,7 +363,8 @@ def makeOrder():
     #return to basket page with message
     return json.dumps({'status': 'OK', 'feedback': f"Order successful, view your account to see details!"})
 
-@app.route('/makeOrder', methods=['GET', 'POST'])
+@app.route('/logOut', methods=['GET', 'POST'])
 def logOut():
+    print("In logout")
     session.pop('customer',None)
-    return redirect(url_for('login'))
+    return json.dumps({'status': 'OK'})

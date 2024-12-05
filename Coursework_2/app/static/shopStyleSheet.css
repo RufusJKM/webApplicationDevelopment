@@ -6,6 +6,10 @@ nav {
     background-color: #00005B;
 }
 
+.feedback {
+    font-size: 24px;
+}
+
 /* Styling for submit/back buttons */
 .button {
     height: 35px;

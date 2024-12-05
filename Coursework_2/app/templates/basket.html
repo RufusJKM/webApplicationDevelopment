@@ -45,7 +45,9 @@
         <p lang="en" class="total" id="total">Total: £{{total}}</p>
     </div>
     <div class="col-3">
-        <p lang="en"><input class="button" id="order" type="submit" value="Order Now"></p>
+        {% if total > 0 %}
+            <p lang="en"><input class="button" id="order" type="submit" value="Order Now"></p>
+        {% endif %}
     </div>
 </div>
 <p id="feedback"></p>
